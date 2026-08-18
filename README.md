@@ -68,9 +68,9 @@ Each competency below is tied to real analytical work, project methodology, or p
 
 `Double ML` `Causal Inference` `FastAPI` `Docker` `MLflow` `33 tests`
 
-A pricing A/B test can show a positive average effect, but that does not mean every customer should receive the discount. This system estimates individual treatment effects for 12,000 customers with a cross-fitted Double ML learner, validates the estimate through 17 checks, and compares five targeting strategies on profit rather than conversion rate. Blanket discounting destroys 21% of profit compared to doing nothing, while the individually targeted policy beats it by 32%.
-
 🟢 **Live API:** [pricing-heterogeneity-api.onrender.com/docs](https://pricing-heterogeneity-api.onrender.com/docs)
+
+A pricing A/B test can show a positive average effect, but that does not mean every customer should receive the discount. This system estimates individual treatment effects for 12,000 customers with a cross-fitted Double ML learner, validates the estimate through 17 checks, and compares five targeting strategies on profit rather than conversion rate. Blanket discounting destroys 21% of profit compared to doing nothing, while the individually targeted policy beats it by 32%.
 
 </td>
 <td width="50%" valign="top">
@@ -80,9 +80,9 @@ A pricing A/B test can show a positive average effect, but that does not mean ev
 
 `LangChain` `FAISS` `Multi Agent` `Knowledge Graphs` `FastAPI` `27 tests`
 
-An agentic RAG assistant built on the Sleep-Time Compute paradigm. Four autonomous agents pre-process documents before a query arrives, so the system avoids paying that reasoning cost at inference time. A controlled benchmark compares it against traditional RAG on latency, cost, and token usage, with a break-even model for the preprocessing investment.
-
 🟢 **Live API:** [sleepmind-ai-api.onrender.com/docs](https://sleepmind-ai-api.onrender.com/docs)
+
+An agentic RAG assistant built on the Sleep-Time Compute paradigm. Four autonomous agents pre-process documents before a query arrives, so the system avoids paying that reasoning cost at inference time. A controlled benchmark compares it against traditional RAG on latency, cost, and token usage, with a break-even model for the preprocessing investment.
 
 </td>
 </tr>
