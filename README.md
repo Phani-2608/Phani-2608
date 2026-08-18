@@ -1,90 +1,78 @@
-<h1 align="center">Phanindra Reddy Mathireddy</h1>
-<h3 align="center">AI/ML Engineer &amp; Data Scientist</h3>
+### Hi, I'm Phanindra 👋
 
-<p align="center">
-I build AI and ML systems end to end — from problem framing through deployment — for organizations that need results measured in business outcomes, not benchmark scores. My work spans agentic and retrieval-based generative AI, causal inference and experimentation, and the production infrastructure that keeps a system reliable once it's live: APIs, containers, CI/CD, and monitoring.
-</p>
+**Data Scientist & AI/ML Engineer**
 
-<p align="center">
-<a href="https://www.linkedin.com/in/phanindram26/"><img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat&logo=linkedin&logoColor=white"></a>
-<a href="mailto:phanindra2608@gmail.com"><img src="https://img.shields.io/badge/Email-Contact-D14836?style=flat&logo=gmail&logoColor=white"></a>
-<a href="https://phanindra26.netlify.app/"><img src="https://img.shields.io/badge/Portfolio-Visit-000000?style=flat&logo=vercel&logoColor=white"></a>
-</p>
+I turn messy data into decisions that move metrics, then build the production systems that act on them. My work combines statistical reasoning, causal inference, predictive modeling, and GenAI engineering to solve high-impact problems across fintech and healthcare.
 
-<p align="center">
-<em>Generative AI Engineer at PayPal (Payments &amp; Risk Intelligence) · Former ML Engineer at Cigna (Healthcare AI) · MS Computer Science, UMBC</em>
-</p>
+Currently a **Generative AI Engineer, Payments & Risk Intelligence** at **PayPal**. Previously a **Machine Learning Engineer, Healthcare AI & Clinical Informatics** at **Cigna**.
+
+My formal titles have centered on AI/ML engineering, yet the work itself spans experimentation, statistical analysis, causal inference, and business decision support. The two projects below are the clearest proof of that range, both fully tested and production deployed.
 
 ---
 
-### What I Build
+### Experience
 
-I work at the intersection of applied ML and product engineering, where the model is one component of the system rather than the whole deliverable. Concretely: retrieval and agentic architectures for generative AI, causal inference and experimentation for decision systems, and the surrounding infrastructure — APIs, containers, CI, monitoring — that makes any of it dependable in production. My recent work centers on transaction-risk intelligence and agentic customer support at PayPal, and clinical prediction systems at Cigna, both operating against real production data volumes.
+**Generative AI Engineer, Payments & Risk Intelligence** · PayPal · Aug 2025 to Present
+*AI-Powered Transaction Intelligence & Customer Engagement Platform*
+- Built a GenAI transaction monitoring system (GPT-4, LangChain, RAG/Pinecone) over ~4M daily events across 200+ countries, cutting false-positive fraud alerts by ~32%
+- Designed multi-agent orchestration (LangGraph, CrewAI) for transaction analysis and dispute resolution, cutting manual processing from 3 to 5 days down to under 4 hours
+- Deployed GenAI inference infrastructure (FastAPI, AWS Lambda/SageMaker) sustaining sub-250ms latency at 99.8% uptime
 
----
-
-## Featured Work
-
-### SleepMind AI — Sleep-Time Compute Research Assistant
-
-**Problem.** Most RAG systems do all their reasoning at query time, which caps how much context or agentic depth you can afford before latency and cost become the constraint.
-
-**What I Built.** A document intelligence system that shifts reasoning to *before* the query arrives. Four autonomous agents — Summary, FAQ Generator, Future Query Predictor, and Concept Extractor — pre-process a document offline, populating a semantic retrieval layer and a knowledge graph so that the online path becomes a lookup rather than a fresh reasoning pass.
-
-**Engineering Depth.** Modular Python package (ingestion, agents, retrieval, knowledge graph, storage, evaluation, API, dashboard, monitoring) — not a single notebook. FastAPI service, Streamlit dashboard, Docker + docker-compose, GitHub Actions CI with 27 fully mocked tests (no API key required to run the pipeline in CI). Secrets are resolved from environment variables only, with no keys committed to the repository.
-
-**Evaluation.** Benchmarked head-to-head against traditional query-time RAG across latency, token usage, retrieval quality, and a cost break-even model, with experiment tracking in MLflow.
-
-**Business Impact.** Demonstrates a concrete pattern for cutting inference-time cost and latency in document-heavy AI products by moving computation off the critical path — directly relevant to any system serving high query volume against a fixed knowledge base.
-
-**Live Demo.** [Try the App](https://sleepmind-ai-dashboard.onrender.com/) · [API Docs](https://sleepmind-ai-api.onrender.com/docs) · [Repository](https://github.com/Phani-2608/sleepmind-ai)
-
-> Hosted on a free tier — the first request after idle may take 30–60s to spin up.
+**Machine Learning Engineer, Healthcare AI & Clinical Informatics** · Cigna · Jun 2022 to Jul 2024
+*Predictive Healthcare Analytics & Clinical Decision Support System*
+- Built a 30-day readmission model (XGBoost, LightGBM, PyTorch LSTM) on 2M+ patient records, reducing preventable readmissions by ~19% and delivering ~$8M in annual cost avoidance
+- Developed a medical imaging pipeline (ResNet50, EfficientNet, U-Net) achieving 94%+ validation accuracy on chest X-ray, CT, and MRI classification
+- Implemented clinical NLP (BioBERT, ClinicalBERT) on 500K+ clinical notes, cutting manual chart review time by ~65%
 
 ---
 
-### Heterogeneous Treatment Effects in Customer Pricing Strategy
+### Expertise
 
-**Problem.** A pricing intervention with a positive *average* effect can still be the wrong call — if the effect is concentrated in a subset of customers, a blanket rollout can destroy value even while the topline number looks good.
+Each competency below is tied to real analytical work, project methodology, or production experience, not to a standalone keyword list.
 
-**What I Built.** A causal decision system that estimates *individual*, not average, treatment effects using cross-fitted Double Machine Learning across 12,000 customers, then turns those estimates into an actual targeting policy rather than stopping at "the average effect is positive."
-
-**Engineering Depth.** Production-structured Python package (data, features, causal, models, evaluation, optimization, API, dashboard, monitoring) with FastAPI serving, a Streamlit decision simulator for stakeholders, Docker + docker-compose, GitHub Actions CI (lint, tests, Docker build across Python 3.10/3.11), and 33 automated tests.
-
-**Evaluation.** 17 causal-validity diagnostics covering propensity overlap, GATES calibration, Qini ranking, placebo and falsification testing, and sensitivity analysis — all 17 passing. CATE estimates correlate at 0.715 with known ground truth. SHAP explainability and a fairness audit are included and reported as-is, including where the model falls short of the four-fifths rule, rather than hidden. Findings are packaged into a confirmatory A/B test design rather than presented as a final answer.
-
-**Business Impact.** A blanket rollout to every customer — despite a positive average treatment effect (~6–7%) — would destroy **21.2% of profit**. Targeting by individual treatment effect instead of treating everyone improves profit by **32.5%** relative to the blanket-rollout policy.
-
-**Live Demo.** [Explore the Decision Simulator](https://pricing-heterogeneity-dashboard.onrender.com) · [API Docs](https://pricing-heterogeneity-api.onrender.com/docs) · [Repository](https://github.com/Phani-2608/Pricing-heterogeneity)
-
-> Hosted on a free tier — the first request after idle may take 30–60s, as the model retrains fresh on deploy/cold start.
+| Area | What it covers | Evidence |
+|---|---|---|
+| GenAI & LLM Systems | RAG architecture, multi-agent orchestration, prompt engineering, LLM evaluation | PayPal production systems, SleepMind AI |
+| Causal Inference & Experimentation | A/B testing, power analysis, Double ML, heterogeneous treatment effects, fairness audits | Pricing Heterogeneity |
+| Predictive Modeling & Statistics | XGBoost, LightGBM, PyTorch, hypothesis testing, regression, model evaluation | PayPal fraud models, Cigna readmission model |
+| Data Engineering & Analytics | SQL, ETL/ELT pipelines, multi-source integration, feature engineering | Cigna healthcare data infrastructure, Pricing Heterogeneity SQL layer |
+| Production & MLOps | Docker, Kubernetes, MLflow, CI/CD, drift monitoring, uptime tracking | 99.8% (PayPal) and 99.9% (Cigna) production uptime, both projects deployed |
+| Decision Science & Communication | Translating model output into revenue, risk, and clinical decisions | PayPal and Cigna stakeholder-facing work |
 
 ---
 
-### Professional Focus
+### Featured Projects
 
-**Generative AI Engineer — Payments & Risk Intelligence, PayPal** — building agentic and retrieval-based systems over transaction data at scale, aimed at reducing false-positive fraud alerts and automating multilingual customer support workflows.
+**[Pricing Heterogeneity](https://github.com/Phani-2608/Pricing-heterogeneity)** · *Data Science, Causal Inference*
+🟢 **Live API:** [pricing-heterogeneity-api.onrender.com/docs](https://pricing-heterogeneity-api.onrender.com/docs)
 
-**Machine Learning Engineer — Healthcare AI & Clinical Informatics, Cigna** — predictive models and clinical decision support built over large-scale patient and clinical-note datasets, including medical-imaging validation pipelines.
+A pricing A/B test can show a positive average effect, but that doesn't mean every customer should receive the discount. This system estimates individual treatment effects for 12,000 customers with a cross-fitted Double ML learner, validates the estimate through 17 checks, and compares five targeting strategies on profit rather than conversion rate. Blanket discounting destroys 21% of profit versus doing nothing; the individually targeted policy beats it by 32%. `Double ML` `Causal Inference` `FastAPI` `Docker` `MLflow` `33 tests`
 
-Across both, the common thread is the same: define the metric that actually matters to the business, build the system that moves it, and prove — with evaluation, not assertion — that it works.
+**[SleepMind AI](https://github.com/Phani-2608/sleepmind-ai)** · *GenAI, Agentic Systems*
 
----
-
-### Technical Toolkit
-
-**Languages & Data** — Python · SQL
-
-**Generative AI & Agentic Systems** — LLMs · RAG · Agentic AI · LangChain · LangGraph · CrewAI · FAISS · Knowledge Graphs
-
-**ML & Causal Inference** — Machine Learning · Deep Learning · Double Machine Learning · Causal Inference · Model Explainability (SHAP) · Experimentation & A/B Testing
-
-**Engineering & MLOps** — FastAPI · Docker · CI/CD (GitHub Actions) · MLflow · Automated Testing · Cloud-Deployed ML Systems
+An agentic RAG assistant built on the Sleep-Time Compute paradigm. Four autonomous agents pre-process documents before a query arrives, so the system avoids paying that reasoning cost at inference time. A controlled benchmark compares it against traditional RAG on latency, cost, and token usage, with a break-even model for the preprocessing investment. `LangChain` `FAISS` `Multi-Agent` `Knowledge Graphs` `FastAPI` `27 tests`
 
 ---
 
-### Contact
+### Skills
 
-Open to AI Engineer, Machine Learning Engineer, Applied AI Engineer, Data Scientist, and Forward Deployed Engineer roles.
+**GenAI & LLM Systems:** GPT-4, Claude, LangChain, LangGraph, CrewAI, RAG, MCP, Prompt Engineering
+**Data Science & Statistics:** Python, SQL, R, A/B Testing, Double ML, Hypothesis Testing, Power Analysis
+**ML & Deep Learning:** XGBoost, LightGBM, Scikit-learn, PyTorch, TensorFlow, BioBERT, ClinicalBERT
+**MLOps, Cloud & Data:** Docker, Kubernetes, MLflow, FastAPI, AWS, Azure, Snowflake, Pinecone
 
-[LinkedIn](https://www.linkedin.com/in/phanindram26/) · [phanindra2608@gmail.com](mailto:phanindra2608@gmail.com) · [Portfolio](https://phanindra26.netlify.app/)
+---
+
+### Certifications
+
+- AWS Certified Machine Learning, Specialty (2025)
+- Google Professional Machine Learning Engineer (2024)
+- Microsoft Certified: Azure AI Engineer Associate (2025)
+
+---
+
+### Let's connect
+
+Open to Data Scientist and AI/ML Engineer roles, including Applied Scientist, Product Data Science, and Risk/Decision Science positions.
+
+[Portfolio](https://phanindra26.netlify.app/) · [LinkedIn](https://www.linkedin.com/in/phanindram26/) · phanindra2608@gmail.com
