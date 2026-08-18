@@ -78,6 +78,8 @@ A pricing A/B test can show a positive average effect, but that does not mean ev
 **[SleepMind AI](https://github.com/Phani-2608/sleepmind-ai)**
 *GenAI · Agentic Systems*
 
+🚧 **Live demo:** deploying soon
+
 An agentic RAG assistant built on the Sleep-Time Compute paradigm. Four autonomous agents pre-process documents before a query arrives, so the system avoids paying that reasoning cost at inference time. A controlled benchmark compares it against traditional RAG on latency, cost, and token usage, with a break-even model for the preprocessing investment.
 
 `LangChain` `FAISS` `Multi Agent` `Knowledge Graphs` `FastAPI` `27 tests`
@@ -116,5 +118,4 @@ Open to Data Scientist and AI/ML Engineer roles, including Applied Scientist, Pr
 | Phone | +1 6674190451 |
 | Email | phanindra2608@gmail.com |
 | LinkedIn | linkedin.com/in/phanindram26 |
-| GitHub | github.com/Phani-2608 |
 | Portfolio | phanindra26.netlify.app |
