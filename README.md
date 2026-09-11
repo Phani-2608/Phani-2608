@@ -9,7 +9,7 @@
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=17&duration=3000&pause=900&color=0F766E&center=true&vCenter=true&width=640&lines=Agentic+RAG+benchmarked+on+latency%2C+tokens%2C+and+cost;Fraud+models+judged+in+dollars+saved%2C+not+accuracy;Causal+estimates+verified+against+ground+truth;Tested.+Containerized.+Deployed." alt="Agentic RAG, fraud and risk ML, causal inference, production engineering"/>
 
 <a href="https://phanindra26.netlify.app/"><img src="https://img.shields.io/badge/Portfolio-phanindra26.netlify.app-0F766E?style=for-the-badge&logo=netlify&logoColor=white" alt="Portfolio"/></a>
-<a href="https://www.linkedin.com/in/phanindram26/"><img src="https://img.shields.io/badge/LinkedIn-phanindram26-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
+<a href="https://www.linkedin.com/in/phanindra26/"><img src="https://img.shields.io/badge/LinkedIn-phanindra26-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
 <a href="mailto:phanindra2608@gmail.com"><img src="https://img.shields.io/badge/Email-phanindra2608%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/></a>
 
 🎯 **Open to AI/ML Engineer and Data Scientist roles** &nbsp;·&nbsp; 📫 phanindra2608@gmail.com
@@ -267,6 +267,6 @@ Five strategies were compared on profit, ROI, and incremental conversions: treat
 
 **Hiring for AI/ML Engineering or Data Science? Let's talk.**
 
-<a href="https://phanindra26.netlify.app/">Portfolio</a> &nbsp;·&nbsp; <a href="https://www.linkedin.com/in/phanindram26/">LinkedIn</a> &nbsp;·&nbsp; <a href="mailto:phanindra2608@gmail.com">phanindra2608@gmail.com</a>
+<a href="https://phanindra26.netlify.app/">Portfolio</a> &nbsp;·&nbsp; <a href="https://www.linkedin.com/in/phanindra26/">LinkedIn</a> &nbsp;·&nbsp; <a href="mailto:phanindra2608@gmail.com">phanindra2608@gmail.com</a>
 
 </div>
