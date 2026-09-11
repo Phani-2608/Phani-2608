@@ -1,140 +1,272 @@
-<h1 align="center">Hi, I'm Phanindra 👋</h1>
-<p align="center">I build and ship systems that sit at the intersection of <b>causal inference</b>, <b>applied ML</b>, and <b>production engineering</b>.</p>
+<div align="center">
+
+# Phanindra Reddy Mathireddy
+
+### AI/ML Engineer &nbsp;·&nbsp; Data Scientist
+
+**I build machine learning systems that answer real business questions and hold up in production:<br/>agentic LLM pipelines, fraud and risk models, and causal inference for pricing decisions.**
+
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=17&duration=3000&pause=900&color=0F766E&center=true&vCenter=true&width=640&lines=Agentic+RAG+benchmarked+on+latency%2C+tokens%2C+and+cost;Fraud+models+judged+in+dollars+saved%2C+not+accuracy;Causal+estimates+verified+against+ground+truth;Tested.+Containerized.+Deployed." alt="Agentic RAG, fraud and risk ML, causal inference, production engineering"/>
+
+<a href="https://phanindra26.netlify.app/"><img src="https://img.shields.io/badge/Portfolio-phanindra26.netlify.app-0F766E?style=for-the-badge&logo=netlify&logoColor=white" alt="Portfolio"/></a>
+<a href="https://www.linkedin.com/in/phanindram26/"><img src="https://img.shields.io/badge/LinkedIn-phanindram26-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
+<a href="mailto:phanindra2608@gmail.com"><img src="https://img.shields.io/badge/Email-phanindra2608%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/></a>
+
+🎯 **Open to AI/ML Engineer and Data Scientist roles** &nbsp;·&nbsp; 📫 phanindra2608@gmail.com
+
+<br/>
+
+| 🧪 **3** | ✅ **94** | 🌐 **4** | 🔁 **3 of 3** |
+|:---:|:---:|:---:|:---:|
+| end to end case studies | automated tests | live services you can click | repos with passing CI |
+
+</div>
 
 ---
 
-### 🧠 Core Expertise
+## 🧭 What I Bring
 
-| Area | Depth |
-|---|---|
-| **Causal Inference & Experimentation** | Double Machine Learning, ATE/CATE/ITE estimation, uplift modeling, policy evaluation, fairness auditing |
-| **Fraud & Risk Systems** | Point in time feature engineering, leakage detection, identity graph construction, cost aligned evaluation, drift versus decay monitoring |
-| **LLM & Agentic Systems** | Multi agent orchestration, RAG, knowledge graphs, sleep time / offline compute patterns, grounded and verified LLM outputs |
-| **Data Engineering** | Medallion architecture (Bronze/Silver/Gold) on Databricks, idempotent pipelines, data quality quarantine handling, large scale EDA |
-| **Production ML** | FastAPI services, Streamlit dashboards, Docker / Docker Compose, GitHub Actions CI, pytest suites, MLflow experiment tracking |
-| **Languages** | Python, SQL |
+| 🤖 Generative AI & Agents | 🛡️ Fraud & Risk ML | 📈 Causal Inference & Decision Science |
+|---|---|---|
+| Multi agent pipelines, RAG with FAISS and knowledge graphs, LLM cost and latency benchmarking, grounded LLM output with verification and safe fallbacks | Point in time features, automated leakage tests, identity graphs, cost aligned evaluation, expected loss ranking, drift versus decay monitoring | Double Machine Learning, ATE / CATE / ITE estimation, uplift and policy optimization, experiment design and power analysis, fairness audits |
 
 ---
 
-## 📁 Case Studies
+## 📂 Case Studies
 
-Three systems, each rebuilt from an initial research notebook into a tested, containerized, CI backed production package. Each case study below covers the problem, the technical approach, the engineering behind it, and the measured results.
+Each project starts from a business question, is validated against something checkable, and ships as a tested, containerized service. **Skim the table, then open any case study below.**
 
-<br>
-
-## Case Study 1: SleepMind AI
-### Sleep Time Compute Research Assistant
-
-**Repository:** [Phani-2608/sleepmind-ai](https://github.com/Phani-2608/sleepmind-ai)
-**Live API:** [sleepmind-ai-api.onrender.com/docs](https://sleepmind-ai-api.onrender.com/docs)
-**Live Dashboard:** [sleepmind-ai-dashboard.onrender.com](https://sleepmind-ai-dashboard.onrender.com)
-
-#### Overview
-SleepMind AI is a research assistant built around a simple but underexplored idea: most retrieval augmented generation (RAG) systems spend all of their compute at query time, when a user is actively waiting on a response. SleepMind instead performs the expensive reasoning offline, before any query arrives, using the interval when the system is otherwise idle.
-
-#### The Problem
-Traditional RAG pipelines chunk a document, embed it, and reason over it only once a question is asked. This means every query pays the full cost of retrieval plus generation, and repeated queries against the same document repeat that cost with no compounding benefit. The question driving this project was whether a system could instead do its reasoning ahead of time, amortizing the cost of understanding a document across every future query against it.
-
-#### Technical Approach
-Four autonomous agents run against a document as soon as it's ingested, well before any user interacts with it:
-
-- **Summary Agent** produces a structured summary of the document's content
-- **FAQ Generator** anticipates likely questions and pre computes answers
-- **Future Query Predictor** models what a user is likely to ask next, extending beyond simple FAQ generation
-- **Concept Extractor** pulls out the key entities and relationships in the document
-
-The output of these agents feeds a retrieval layer backed by a **knowledge graph** rather than flat vector chunks, so retrieval can follow relationships between concepts, not just semantic similarity between text fragments.
-
-To validate the approach empirically rather than by intuition, this sleep time compute pipeline was benchmarked head to head against a traditional RAG baseline across three dimensions: response latency, token consumption, and a cost break even model that identifies the query volume at which the upfront offline investment starts paying for itself. Every experiment run was tracked in **MLflow**, so comparisons across pipeline versions are reproducible rather than eyeballed.
-
-#### Engineering & Production Readiness
-The project was rebuilt from a single research notebook into a modular Python package: `ingestion / agents / retrieval / knowledge_graph / storage / evaluation / api / dashboard / monitoring`. It ships with 27 pytest tests, all fully mocked so the CI suite runs green without requiring a live API key. A FastAPI service exposes the system programmatically, a Streamlit dashboard exposes it interactively, and both are containerized with Docker and Docker Compose behind a GitHub Actions CI pipeline.
-
-One engineering detail worth calling out directly: the original research notebook had a live API key hardcoded and pushed to a public repository. The rebuild treats that as a defect to be fixed and documented, not quietly patched. Secrets are now resolved exclusively through environment variables, `.env` is git ignored, and there are zero hardcoded credentials anywhere in the rebuilt codebase.
-
-#### What This Demonstrates
-Agentic system design that goes beyond a single LLM call, quantitative reasoning about the cost and latency tradeoffs of an architecture rather than a qualitative "does it work," and the discipline to treat a security issue found in earlier work as something to fix and document openly.
-
-<br>
-
-## Case Study 2: Boomerang
-### Retail Return Fraud Detection, Built the Right Way
-
-**Repository:** [Phani-2608/Boomerang](https://github.com/Phani-2608/Boomerang)
-**Documentation:** [Data Card](https://github.com/Phani-2608/Boomerang/blob/main/docs/DATA_CARD.md) · [Evaluation Notes](https://github.com/Phani-2608/Boomerang/blob/main/docs/EVALUATION.md) · [Architecture Notes](https://github.com/Phani-2608/Boomerang/blob/main/docs/ARCHITECTURE.md)
-
-#### Overview
-Retail return fraud costs the industry well over a hundred billion dollars a year, and most attempts to catch it start and end with a classifier. Boomerang is a complete system built around a different premise: the classifier is the easy part. What determines whether a fraud model actually works in production is whether the data can be trusted, whether the features are honest, whether the resulting score helps someone do their job, and whether the whole system keeps working once the world underneath it changes.
-
-#### The Problem
-Fraud models commonly fail in production for one of three reasons: the training data leaked information from the future into features that shouldn't have had it, the evaluation metric didn't match how the model would actually be used, or nobody built a way to notice when the model started drifting from reality after deployment. Boomerang was built specifically to demonstrate that all three failure modes could be designed around and proven absent, end to end.
-
-#### Technical Approach
-
-**Building trustworthy synthetic data.** No public dataset carries honest return fraud labels, so the training data was generated deliberately rather than conveniently. A simplistic approach (label anyone who returns more than N times a month as fraudulent) would only teach a model to recover the labeling rule itself, producing a suspiciously perfect and practically useless result. Instead: fraudulent customers also make ordinary returns, so fraud is never a clean function of who someone is; a portion of fraud is driven by a factor deliberately excluded from every feature, capping the ceiling any model can reach; investigator labels are intentionally noisy, with roughly 10% of real fraud going uncaught; and realistic operational mess is injected throughout, including wrong sign refunds, clock skew timestamps, duplicate records, and late arriving corrections.
-
-**A pipeline that cannot silently lose or duplicate a row.** Data flows through a medallion architecture: raw events land untouched, a cleaning stage deduplicates and validates them, and a final stage builds the tables every downstream consumer depends on. A hard invariant is enforced before the pipeline is allowed to finish: rows in must equal rows published plus rows quarantined, with every quarantined row carrying a documented reason. Deduplication uses a business key merge ordered by when the source system asserted a version of a record, not by when it happened to arrive, which prevents a late correction from silently double counting revenue.
-
-**Leakage proof, point in time correct features, plus a relational signal most models miss.** Every feature describing a customer's history is built using only events strictly before the return being scored. This is enforced with a test suite that recomputes a sample of features by brute force, using nothing but a timestamp filter, and fails the build if the fast production version disagrees. A second automated check flags any single feature that predicts the fraud label suspiciously well on its own, since that is the signature of a leak. On top of this, an **identity graph** connects customers through shared devices, addresses, and payment methods, and a feature capturing how much confirmed fraud already exists elsewhere in a customer's cluster improved every model tried, evidence that relational structure carries real signal a row by row model cannot see.
-
-**Honest model comparison, including a genuine surprise.** A full ladder of approaches was trained, from a hand written baseline rule up through XGBoost with graph features, and every model was evaluated on a temporal train and test split so that no model could see the future during training.
-
-| Model | Ranking Quality | Fraud $ Caught | Net $ Saved |
+| Case study | The question it answers | Headline result | Try it |
 |---|---|---|---|
-| Logistic regression + graph features | 0.304 | $2,185 | $937 |
-| XGBoost + graph features | 0.301 | $1,663 | $437 |
-| Plain logistic regression | 0.266 | $2,293 | **$1,049** |
-| Hand written rule (baseline) | 0.087 | $859 | **negative $391** |
+| 🧠 **[SleepMind AI](#sleepmind)**<br/><sub>Agentic RAG · Generative AI</sub> | Can an AI assistant do its thinking *before* the user asks? | Four offline agents benchmarked head to head against traditional RAG on latency, tokens, cost, and break even query volume | [API](https://sleepmind-ai-api.onrender.com/docs) · [Dashboard](https://sleepmind-ai-dashboard.onrender.com) |
+| 🪃 **[Boomerang](#boomerang)**<br/><sub>Fraud Detection · Risk ML</sub> | Which retail returns should an investigator look at first? | The simplest model won: **$1,049 net saved**, 2.4x the best XGBoost variant | [Code](https://github.com/Phani-2608/Boomerang) · runs locally |
+| 💲 **[Pricing Heterogeneity](#pricing)**<br/><sub>Causal Inference · Decision Science</sub> | Who should actually get a discount? | **+32.5% profit** versus discounting everyone, with **17 of 17** validation checks passing | [API](https://pricing-heterogeneity-api.onrender.com/docs) · [Dashboard](https://pricing-heterogeneity-dashboard.onrender.com) |
 
-Accuracy was deliberately never used as the evaluation metric, since at this fraud rate a model that predicts nothing at all would still be over 95% accurate. The two columns above disagree with each other: the graph augmented XGBoost model has the best ranking quality, but plain logistic regression, the simplest model on the list, saves the most money by a wide margin. That mismatch is reported directly rather than hidden behind whichever metric looks most impressive, because the entire point of building a model ladder instead of training one model is to let the economics choose the champion.
+<sub>⏱️ Live demos run on free tier hosting, so the first click may take 30 to 60 seconds to wake the service.</sub>
 
-**Turning a probability into an action, and knowing when not to retrain.** Cases are ranked by expected loss, meaning probability of fraud multiplied by dollar exposure, rather than raw probability, so a moderate risk high value case correctly outranks a near certain low value one. Net savings were found to peak at roughly 5% of cases reviewed and turn negative past roughly 15%, giving a direct, data grounded answer to how large an investigation team should be. A monitoring layer distinguishes drift, meaning the world changing, from decay, meaning the model itself going wrong, since conflating the two leads teams to retrain constantly on harmless seasonal wobble. In one monitored run, a customer tenure feature showed heavy drift while performance held steady, and the system correctly recommended watching the situation rather than triggering a retrain.
+<br/>
 
-**A grounded LLM explainer that cannot make a decision.** A local LLM translates a case's evidence into a plain English explanation an investigator can read without parsing the underlying math. The rule that was never compromised: the model decides risk, and the LLM only narrates evidence it has been handed. Every number the LLM writes into its explanation is checked against the actual evidence packet; a number that cannot be verified causes the explanation to be discarded and replaced with a template built from the same evidence, which is the same fallback path used whenever the LLM is unavailable at all, so the system's core function never depends on an LLM being up.
+<a id="sleepmind"></a>
 
-#### Engineering & Production Readiness
-The system was rebuilt into a modular package: `lakehouse / features / ml / ai / serving / monitoring / orchestration`. Thirty four tests cover leakage checks, data quality rules, evaluation logic, the API contract, and LLM explanation grounding, all running through GitHub Actions. It ships with a FastAPI scoring service, an operations console for investigators, Docker and Docker Compose, and a parallel implementation of the same pipeline written for Databricks and Spark. The entire system runs locally with no cloud account required, and rebuilds itself from nothing in under a minute.
+## 🧠 Case Study 1 · SleepMind AI
 
-#### What This Demonstrates
-Fraud and risk systems thinking that extends well past the model itself: synthetic data honesty, leakage proof feature engineering, evaluation aligned to the real cost function rather than a proxy metric, drift versus decay monitoring, and constraining a language model to narration rather than decision making.
+**Agentic RAG with Sleep Time Compute: do the expensive reasoning offline, so answers arrive faster and cheaper online.**
 
-<br>
+[![Code](https://img.shields.io/badge/Code-GitHub-181717?style=flat-square&logo=github)](https://github.com/Phani-2608/sleepmind-ai)
+[![Live API](https://img.shields.io/badge/Live-API_Docs-009688?style=flat-square&logo=fastapi&logoColor=white)](https://sleepmind-ai-api.onrender.com/docs)
+[![Dashboard](https://img.shields.io/badge/Live-Dashboard-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://sleepmind-ai-dashboard.onrender.com)
+[![CI status](https://github.com/Phani-2608/sleepmind-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/Phani-2608/sleepmind-ai/actions)
+![Tests](https://img.shields.io/badge/tests-27_passing-2EA44F?style=flat-square&logo=pytest&logoColor=white)
 
-## Case Study 3: Pricing Heterogeneity
-### Causal Inference for Customer Pricing Strategy
-
-**Repository:** [Phani-2608/Pricing-heterogeneity](https://github.com/Phani-2608/Pricing-heterogeneity)
-**Live API:** [pricing-heterogeneity-api.onrender.com/docs](https://pricing-heterogeneity-api.onrender.com/docs)
-**Live Dashboard:** [pricing-heterogeneity-dashboard.onrender.com](https://pricing-heterogeneity-dashboard.onrender.com)
-
-#### Overview
-A price change does not affect every customer the same way. Some customers are highly price sensitive, others barely notice, and treating a population as if it has one uniform response leaves money on the table in both directions. This project estimates that heterogeneity credibly, using causal inference rather than correlational modeling, and then converts the estimates into a pricing policy that can be evaluated on real business outcomes.
-
-#### The Problem
-Estimating how a treatment (in this case, a price change) affects different individuals differently, without the benefit of a live randomized experiment, is a classic causal inference challenge. A naive regression of outcome on price and customer features will confound the causal effect of price with every other reason a given customer's outcome happens to correlate with price. The goal here was to estimate individual level treatment effects credibly, and prove that the estimates were credible by checking them against a known ground truth.
-
-#### Technical Approach
-Twelve thousand synthetic customers were simulated with a known, ground truth treatment effect baked in, specifically so that the quality of every downstream estimator could be verified against reality instead of merely assumed. **Cross fitted Double Machine Learning (DML)** was used to separate the estimation of nuisance functions (the outcome model and the propensity model) from the estimation of the causal parameter itself, which avoids the regularization bias that plagues naive plug in estimators.
-
-The analysis was built as a hierarchy rather than a single number: **Average Treatment Effect (ATE)** first, then **Conditional Average Treatment Effect (CATE)** across customer segments, then **Individual Treatment Effect (ITE)** at the level of a single customer. Those individual level estimates were then converted into an actual targeting *policy*, rather than stopping at estimation and calling the project finished. Finally, a **fairness audit** was run against that policy, rather than assuming a model built to maximize profit is automatically neutral across customer groups.
-
-#### Results, Verified Against Ground Truth
-| Metric | Value |
+| | |
 |---|---|
-| True ATE versus DR estimated ATE | 6.0% versus 7.3% |
-| CATE versus truth correlation | 0.715 |
-| Validation checks passed | 17 of 17 |
-| ITE targeted policy versus treat all | **+32.5% profit** |
-| Treat all versus treat none | negative 21.2% profit |
-| Fairness audit (disparity ratio) | 0.373, fails the four fifths rule, reported openly rather than hidden |
+| **Problem** | Traditional RAG pays the full cost of retrieval and reasoning on every query while the user waits, and asking a similar question twice never gets cheaper. |
+| **Approach** | Four autonomous agents (Summary, FAQ Generator, Future Query Predictor, Concept Extractor) analyze each paper before any question arrives. At query time, source chunks, pregenerated FAQs, predicted question and answer pairs, the summary, and a PageRank weighted knowledge graph are fused into one context. |
+| **Evidence** | A controlled benchmark runs the same question set through both pipelines, measuring latency, tokens, cost per query, and source coverage, tracked in MLflow with regression detection. A break even model computes how many queries it takes for offline compute to pay for itself. |
+| **Engineering** | 27 fully mocked tests (CI runs without an API key), FastAPI service, Streamlit dashboard, Docker Compose, content hashed artifacts, retry and timeout logic on every agent, secrets resolved only from the environment. |
 
-#### Engineering & Production Readiness
-The project was rebuilt from a single notebook into a modular package covering `data / sql / features / causal / models / evaluation / optimization / api / dashboard / monitoring`, backed by 33 pytest tests. It ships as a FastAPI service and a Streamlit dashboard, both containerized with Docker and Docker Compose, with GitHub Actions CI running lint, tests, and a Docker build across Python 3.10 and 3.11.
+```mermaid
+flowchart LR
+    subgraph OFF["🌙 Offline: before any question"]
+        A["PDF ingest<br/>chunk · embed · FAISS"] ==> B["4 autonomous agents<br/>summary · FAQs · predicted queries · concepts"]
+        B ==> C["Stored artifacts<br/>+ knowledge graph"]
+    end
+    subgraph ON["⚡ Online: at query time"]
+        D["User question"] ==> E["Fused retrieval<br/>chunks + FAQs + predictions + summary"]
+        E ==> F["Answer"]
+    end
+    C ==> E
+```
 
-#### What This Demonstrates
-Causal inference that goes beyond correlational machine learning, honest evaluation of model quality against a known ground truth rather than a proxy, and the willingness to surface a model's fairness failure in the open rather than reporting only the metric that looks favorable.
+<details>
+<summary><b>📖 Read the full case study</b></summary>
+<br/>
+
+#### The driving question
+Most RAG systems spend all of their compute at the worst possible moment: while a person is waiting. The question behind SleepMind was whether the understanding of a document could be done once, ahead of time, and then amortized across every future query against it.
+
+#### How it works
+* **Ingestion.** PyMuPDF extracts the paper text, which is cleaned, chunked into overlapping windows, embedded, and indexed in FAISS.
+* **Sleep time agents.** Each agent inherits from a shared base class that provides retries, configurable timeouts, structured JSON output, and a safe default on failure, so one failing agent can never crash the pipeline. The FAQ Generator produces 20 question and answer pairs across difficulty levels; the Future Query Predictor produces 15 likely questions ranked by probability, with answers prepared in advance.
+* **Knowledge graph.** Concept Extractor output becomes a NetworkX directed graph with PageRank scoring, so the most central concepts get priority in retrieval.
+* **Query time.** Traditional RAG retrieves only source chunks. Sleep Time RAG fuses chunks, FAQs, predicted answers, and the summary into a richer context window.
+
+#### How it was evaluated
+The same question set runs through both pipelines, comparing latency, token consumption, cost per query, and number of retrieval sources. Every run is logged to MLflow and a run log that flags regressions in latency or cost. The cost break even model answers the question any team shifting compute to preprocessing has to ask: *after how many queries does this pay for itself?*
+
+#### Engineering decisions
+* Tests mock the LLM call, not the agent logic, so every agent is testable in isolation and CI never needs a live key.
+* The same ingestion engine and FAISS index serve both the pipeline and the API, keeping training and serving consistent.
+* Every saved artifact carries a SHA256 content hash, so any output can be traced to the run and configuration that produced it.
+* No hardcoded secrets anywhere: keys come from environment variables, and `.env` is git ignored.
+
+</details>
+
+**What this proves:** agentic system design beyond a single LLM call, quantitative LLM evaluation, cost engineering, and production discipline.
+
+<br/>
+
+<a id="boomerang"></a>
+
+## 🪃 Case Study 2 · Boomerang
+
+**Retail return fraud detection, built the right way: honest data, leak proof features, and a champion model chosen by dollars saved.**
+
+[![Code](https://img.shields.io/badge/Code-GitHub-181717?style=flat-square&logo=github)](https://github.com/Phani-2608/Boomerang)
+[![Data Card](https://img.shields.io/badge/Docs-Data_Card-6E7781?style=flat-square)](https://github.com/Phani-2608/Boomerang/blob/main/docs/DATA_CARD.md)
+[![Evaluation](https://img.shields.io/badge/Docs-Evaluation-6E7781?style=flat-square)](https://github.com/Phani-2608/Boomerang/blob/main/docs/EVALUATION.md)
+[![Architecture](https://img.shields.io/badge/Docs-Architecture-6E7781?style=flat-square)](https://github.com/Phani-2608/Boomerang/blob/main/docs/ARCHITECTURE.md)
+[![CI status](https://github.com/Phani-2608/Boomerang/actions/workflows/ci.yml/badge.svg)](https://github.com/Phani-2608/Boomerang/actions)
+![Tests](https://img.shields.io/badge/tests-34_passing-2EA44F?style=flat-square&logo=pytest&logoColor=white)
+
+| | |
+|---|---|
+| **Problem** | Fraud models that look great on paper fail in production for three reasons: features that leak the future, a metric that does not match how the model is used, and silent drift after launch. Boomerang designs around all three and proves it. |
+| **Approach** | Deliberately honest synthetic data (noisy investigator labels, injected source system mess) flows through a medallion lakehouse into point in time correct features and an identity graph, then a full model ladder evaluated on a temporal split. |
+| **Result** | Graph augmented XGBoost had the best ranking score, but **plain logistic regression saved the most money: $1,049 versus $437.** The champion is chosen by economics, not by the prettiest metric. Net savings peak at about **5% of cases reviewed** and turn negative past about 15%, which directly sizes the investigation team. |
+| **Engineering** | 34 tests covering leakage, data quality, evaluation, API contract, and LLM grounding. FastAPI scoring service, investigator operations console, Docker Compose, a parallel Databricks and Spark implementation, and a full rebuild from nothing in under a minute. |
+
+```mermaid
+flowchart LR
+    A["Synthetic returns<br/>noisy labels + messy source data"] ==> B["Medallion lakehouse<br/>rows in = published + quarantined"]
+    B ==> C["Point in time features<br/>+ identity graph"]
+    C ==> D["Model ladder<br/>temporal split"]
+    D ==> E["Expected loss ranking<br/>probability × dollar exposure"]
+    E ==> F["Investigator console<br/>+ grounded LLM explainer"]
+    F ==> G["Drift vs decay<br/>monitoring"]
+```
+
+<details>
+<summary><b>📖 Read the full case study</b></summary>
+<br/>
+
+#### Data that does not flatter the model
+No public dataset carries real return fraud labels, so the data was generated to be honest rather than convenient. Fraudsters also make ordinary returns, part of the fraud is driven by a factor that appears in no feature (capping what any model can reach), about 10% of real fraud is never caught by investigators, and the data includes wrong sign refunds, clock skew timestamps, duplicate records, and late corrections.
+
+#### A pipeline that cannot silently lose a row
+Bronze, silver, and gold stages enforce a hard invariant before publishing: rows in must equal rows published plus rows quarantined, and every quarantined row carries a reason. Deduplication is a business key merge ordered by when the source system asserted each version, so a late correction never double counts revenue.
+
+#### Features that cannot cheat
+Every history feature uses only events strictly before the return being scored. A test suite recomputes a sample of features by brute force with a plain timestamp filter and fails the build if the fast production version disagrees. A second check fails the build if any single feature predicts the label suspiciously well on its own, the classic signature of a leak. An identity graph over shared devices, addresses, and payment methods adds relational features that **improved every model tried**.
+
+#### Honest model comparison
+Accuracy was never used: at this fraud rate, predicting "not fraud" every time is over 95% accurate and stops nothing.
+
+| Model | Ranking quality | Precision at 5% | Fraud $ caught | Net $ saved |
+|---|---:|---:|---:|---:|
+| Logistic regression + graph features | 0.304 | 0.340 | $2,185 | $937 |
+| XGBoost + graph features | 0.301 | 0.298 | $1,663 | $437 |
+| **Plain logistic regression** | 0.266 | **0.362** | **$2,293** | **$1,049** |
+| Hand written rule (baseline) | 0.087 | 0.149 | $859 | negative $391 |
+
+#### From a score to a decision
+Cases are ranked by expected loss (probability of fraud times dollar exposure), so a moderate risk $900 refund outranks a near certain $20 one. The monitoring layer separates **drift** (the world changing) from **decay** (the model going wrong): in one run, a tenure feature drifted heavily while performance held, and the system correctly recommended watching rather than retraining.
+
+#### An LLM that explains but never decides
+A local LLM turns each case's evidence into plain English for investigators. Every number it writes is checked against the evidence packet; any unverifiable number discards the explanation in favor of a template built from the same evidence. The same fallback runs when the LLM is unavailable, so the system never depends on it.
+
+</details>
+
+**What this proves:** fraud and risk systems thinking beyond the model: data honesty, leakage proof feature engineering, cost aligned evaluation, monitoring judgment, and a language model constrained to narration.
+
+<br/>
+
+<a id="pricing"></a>
+
+## 💲 Case Study 3 · Pricing Heterogeneity
+
+**Causal inference for customer pricing: estimate who responds to a discount, turn it into a targeting policy, and audit that policy before it ships.**
+
+[![Code](https://img.shields.io/badge/Code-GitHub-181717?style=flat-square&logo=github)](https://github.com/Phani-2608/Pricing-heterogeneity)
+[![Live API](https://img.shields.io/badge/Live-API_Docs-009688?style=flat-square&logo=fastapi&logoColor=white)](https://pricing-heterogeneity-api.onrender.com/docs)
+[![Dashboard](https://img.shields.io/badge/Live-Dashboard-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://pricing-heterogeneity-dashboard.onrender.com)
+[![CI status](https://github.com/Phani-2608/Pricing-heterogeneity/actions/workflows/ci.yml/badge.svg)](https://github.com/Phani-2608/Pricing-heterogeneity/actions)
+![Tests](https://img.shields.io/badge/tests-33_passing-2EA44F?style=flat-square&logo=pytest&logoColor=white)
+
+| | |
+|---|---|
+| **Problem** | "Should we discount everyone?" A naive model confounds the effect of price with every other reason a customer buys, and a single average hides who actually responds. |
+| **Approach** | 12,000 synthetic customers with a **known true treatment effect**, so every estimator can be checked against reality. Multi table SQL with CTEs and window functions, cross fitted Double Machine Learning for ATE, CATE, and ITE, then a policy engine that turns individual effects into per customer offers. |
+| **Result** | Discounting everyone **destroys 21.2% of profit** versus discounting no one. The ITE targeted policy **beats discounting everyone by 32.5%**. |
+| **Engineering** | 33 tests, ruff linting, CI across Python 3.10 and 3.11, FastAPI scoring API, Streamlit decision simulator, versioned model registry, SHAP explanations, PSI and treatment effect drift monitoring. |
+
+| Verified against ground truth | Value |
+|---|---|
+| Estimated ATE vs true ATE | 7.3% vs 6.0% (95% CI 5.65% to 8.88%) |
+| CATE vs truth correlation | **0.715** |
+| GATES rank correlation | 0.939 |
+| Validation checks (incl. placebo and sensitivity tests) | **17 of 17 pass** |
+| Fairness audit (four fifths rule) | **Fails at 0.373, documented rather than hidden** |
+
+```mermaid
+flowchart LR
+    A["SQL pipeline<br/>CTEs · window functions"] ==> B["Validation<br/>leakage · balance · overlap"]
+    B ==> C["Cross fitted Double ML<br/>ATE → CATE → ITE"]
+    C ==> D["Robustness<br/>placebos · sensitivity"]
+    D ==> E["Policy engine<br/>who gets the offer"]
+    E ==> F["Fairness audit<br/>+ drift monitoring"]
+```
+
+<details>
+<summary><b>📖 Read the full case study</b></summary>
+<br/>
+
+#### Why causal, not predictive
+A model that predicts purchases well but was trained on confounded data will still recommend the wrong pricing policy. Causal validity outranks predictive fit here, so the estimation is built to separate the effect of the discount from everything correlated with receiving it.
+
+#### The estimation hierarchy
+* **Experiment design first:** hypothesis tests, sample size and minimum detectable effect calculators, Bonferroni corrected segment tests.
+* **Cross fitted Double ML (DR learner):** nuisance models for outcome and propensity are fit on separate folds, avoiding the regularization bias of naive plug in estimators. Analytic and bootstrap confidence intervals agree.
+* **ATE, then CATE, then ITE:** from one average, to segments, to a single customer, with three tier ITE segmentation checked for stability across regions.
+* **Diagnostics:** covariate balance before and after IPW, overlap and positivity checks, GATES calibration, and Qini.
+
+#### Trying to break the result
+Placebo treatment and placebo outcome tests, an unmeasured confounder sensitivity analysis, and subgroup stability checks. All 17 validation checks pass, and every number in the project is reproduced from a single results file.
+
+#### From estimates to a decision
+Five strategies were compared on profit, ROI, and incremental conversions: treat none, treat all, random, segment based, and ITE targeted. The winning policy was then audited across age groups, and it **fails the four fifths rule**. That result is reported in the README, on the dashboard, and in the results file, because a profitable policy that is unfair to ship is not a finished answer.
+
+</details>
+
+**What this proves:** causal inference beyond correlational ML, statistical rigor checked against ground truth, decision making under business constraints, and the integrity to surface an inconvenient result.
 
 ---
 
-### 📌 A Note on How I Work
-I try to treat every project like something that has to survive contact with production: tests, CI, containerization, and an honest accounting of where a model's assumptions break down, rather than a notebook that only has to run once.
+## 🛠️ Toolkit
+
+| | |
+|---|---|
+| **Languages** | <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"/> <img src="https://img.shields.io/badge/SQL-4479A1?style=flat-square&logo=postgresql&logoColor=white" alt="SQL"/> |
+| **ML & Statistics** | <img src="https://img.shields.io/badge/scikit_learn-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" alt="scikit learn"/> <img src="https://img.shields.io/badge/XGBoost-189FDD?style=flat-square" alt="XGBoost"/> <img src="https://img.shields.io/badge/LightGBM-02569B?style=flat-square" alt="LightGBM"/> <img src="https://img.shields.io/badge/SHAP-8B5CF6?style=flat-square" alt="SHAP"/> <img src="https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white" alt="pandas"/> <img src="https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white" alt="NumPy"/> |
+| **Generative AI** | <img src="https://img.shields.io/badge/OpenAI_API-412991?style=flat-square" alt="OpenAI API"/> <img src="https://img.shields.io/badge/FAISS-0467DF?style=flat-square" alt="FAISS"/> <img src="https://img.shields.io/badge/NetworkX-2C5BB4?style=flat-square" alt="NetworkX"/> <img src="https://img.shields.io/badge/Multi_Agent_RAG-0F766E?style=flat-square" alt="Multi agent RAG"/> |
+| **Data Engineering** | <img src="https://img.shields.io/badge/Databricks-FF3621?style=flat-square&logo=databricks&logoColor=white" alt="Databricks"/> <img src="https://img.shields.io/badge/Apache_Spark-E25A1C?style=flat-square&logo=apachespark&logoColor=white" alt="Apache Spark"/> <img src="https://img.shields.io/badge/Medallion_Lakehouse-CD7F32?style=flat-square" alt="Medallion lakehouse"/> |
+| **MLOps & Serving** | <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI"/> <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" alt="Streamlit"/> <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker"/> <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white" alt="GitHub Actions"/> <img src="https://img.shields.io/badge/MLflow-0194E2?style=flat-square&logo=mlflow&logoColor=white" alt="MLflow"/> <img src="https://img.shields.io/badge/pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white" alt="pytest"/> <img src="https://img.shields.io/badge/Render-000000?style=flat-square&logo=render&logoColor=white" alt="Render"/> |
+| **Cloud** | <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square" alt="AWS"/> <img src="https://img.shields.io/badge/Google_Cloud-4285F4?style=flat-square&logo=googlecloud&logoColor=white" alt="Google Cloud"/> <img src="https://img.shields.io/badge/Microsoft_Azure-0078D4?style=flat-square" alt="Microsoft Azure"/> |
+
+## 🏅 Certifications
+
+<img src="https://img.shields.io/badge/AWS_Certified-Generative_AI_Developer_Professional-FF9900?style=flat-square" alt="AWS Certified Generative AI Developer Professional"/>
+<img src="https://img.shields.io/badge/Google_Cloud-Professional_ML_Engineer-4285F4?style=flat-square&logo=googlecloud&logoColor=white" alt="Google Professional Machine Learning Engineer"/>
+<img src="https://img.shields.io/badge/Databricks-ML_Professional-FF3621?style=flat-square&logo=databricks&logoColor=white" alt="Databricks Certified Machine Learning Professional"/>
+<img src="https://img.shields.io/badge/Microsoft_Certified-MLOps_Engineer_Associate-0078D4?style=flat-square" alt="Microsoft Certified Machine Learning Operations Engineer Associate"/>
+
+## 🔬 Currently Building
+
+**Ledger Forensics:** a computer vision system that detects tampered receipts and invoices by fusing visual forensics with OCR, semantic, and arithmetic checks, producing a calibrated risk score that abstains when unsure. Generalization to unseen tampering methods is tested directly with leave one attack out experiments and attack strength curves, not a single headline accuracy.
+
+## ⚙️ How I Work
+
+* **Business question first.** Every project starts from a decision someone has to make, not from a dataset.
+* **Validate against something checkable.** Ground truth, brute force recomputation, placebo tests, controlled benchmarks.
+* **Report the inconvenient result.** The simpler model that wins, the fairness audit that fails.
+* **Ship it.** Tests, CI, containers, a live endpoint, and monitoring, not a notebook that only has to run once.
+
+---
+
+<div align="center">
+
+**Hiring for AI/ML Engineering or Data Science? Let's talk.**
+
+<a href="https://phanindra26.netlify.app/">Portfolio</a> &nbsp;·&nbsp; <a href="https://www.linkedin.com/in/phanindram26/">LinkedIn</a> &nbsp;·&nbsp; <a href="mailto:phanindra2608@gmail.com">phanindra2608@gmail.com</a>
+
+</div>
