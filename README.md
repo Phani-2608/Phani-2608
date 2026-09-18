@@ -16,7 +16,7 @@
 
 <br/>
 
-| 🧪 **3** | ✅ **94** | 🌐 **4** | 🔁 **3 of 3** |
+| 🧪 **4** | ✅ **128** | 🌐 **4** | 🔁 **4 of 4** |
 |:---:|:---:|:---:|:---:|
 | end to end case studies | automated tests | live services you can click | repos with passing CI |
 
@@ -41,6 +41,7 @@ Each project starts from a business question, is validated against something che
 | 🧠 **[SleepMind AI](#sleepmind)**<br/><sub>Agentic RAG · Generative AI</sub> | Can an AI assistant do its thinking *before* the user asks? | Four offline agents benchmarked head to head against traditional RAG on latency, tokens, cost, and break even query volume | [API](https://sleepmind-ai-api.onrender.com/docs) · [Dashboard](https://sleepmind-ai-dashboard.onrender.com) |
 | 🪃 **[Boomerang](#boomerang)**<br/><sub>Fraud Detection · Risk ML</sub> | Which retail returns should an investigator look at first? | The simplest model won: **$1,049 net saved**, 2.4x the best XGBoost variant | [Code](https://github.com/Phani-2608/Boomerang) · runs locally |
 | 💲 **[Pricing Heterogeneity](#pricing)**<br/><sub>Causal Inference · Decision Science</sub> | Who should actually get a discount? | **+32.5% profit** versus discounting everyone, with **17 of 17** validation checks passing | [API](https://pricing-heterogeneity-api.onrender.com/docs) · [Dashboard](https://pricing-heterogeneity-dashboard.onrender.com) |
+| 🧾 **[Ledger Forensics](#ledger-forensics)**<br/><sub>Document Fraud · Multichannel Forensics</sub> | Where does automated receipt and invoice tampering detection actually break? | Fused visual and semantic evidence reached **0.905 ROC AUC**; error attribution traced every wrong decision to its originating stage | [Code](https://github.com/Phani-2608/ledger-forensics) · runs locally |
 
 <sub>⏱️ Live demos run on free tier hosting, so the first click may take 30 to 60 seconds to wake the service.</sub>
 
@@ -230,6 +231,57 @@ Five strategies were compared on profit, ROI, and incremental conversions: treat
 
 **What this proves:** causal inference beyond correlational ML, statistical rigor checked against ground truth, decision making under business constraints, and the integrity to surface an inconvenient result.
 
+
+<a id="ledger-forensics"></a>
+
+## 🧾 Case Study 4 · Ledger Forensics
+
+**Multichannel receipt and invoice fraud detection that measures not only whether the system is wrong, but which stage caused the error.**
+
+[![Code](https://img.shields.io/badge/Code-GitHub-181717?style=flat-square&logo=github)](https://github.com/Phani-2608/ledger-forensics)
+[![CI status](https://github.com/Phani-2608/ledger-forensics/actions/workflows/ci.yml/badge.svg)](https://github.com/Phani-2608/ledger-forensics/actions)
+![Tests](https://img.shields.io/badge/tests-34_passing-2EA44F?style=flat-square&logo=pytest&logoColor=white)
+
+| | |
+|---|---|
+| **Problem** | Document fraud detectors can hide behind one aggregate score, even when OCR, visual evidence, semantic reconciliation, or decision calibration is the real source of failure. |
+| **Approach** | Controlled receipt and invoice generation with exact pixel masks, eight tamper classes, independent visual and semantic channels, logistic fusion, calibration, abstention, and counterfactual error attribution. |
+| **Result** | The fused model reached **0.905 ROC AUC** and **0.947 PR AUC**. On a completely held out document generator it reached **0.916 ROC AUC**, showing that it did not merely learn the synthetic renderer. |
+| **Engineering** | 34 tests across Python 3.10, 3.11, and 3.12, a CI rebuild from nothing, FastAPI, Streamlit, Docker, seeded experiments, and verified evidence reports with optional LLM narration. |
+
+```mermaid
+flowchart TD
+    A["Controlled documents<br/>4 generators"] ==> B["Photograph simulation<br/>before tampering"]
+    B ==> C["8 tamper classes<br/>exact masks"]
+    C ==> D["Visual forensics<br/>+ semantic checks"]
+    D ==> E["Calibrated fusion<br/>abstain when unsure"]
+    E ==> F["Error attribution<br/>verified evidence report"]
+```
+
+<details>
+<summary><b>📖 Read the full case study</b></summary>
+<br/>
+
+#### The driving question
+The goal was not to claim that every forged receipt can be detected. It was to measure where document fraud detection actually breaks, then make those limits visible instead of hiding them behind one headline metric.
+
+#### Evidence with exact ground truth
+Four document generators create controlled receipts and invoices. Eight tamper classes alter them after photograph simulation, preserving exact masks for every edited pixel. Independent visual forensics and semantic reconciliation channels are evaluated alone and together, then calibrated against operating cost. A held out generator with a different font, layout, paper, and ink tests whether performance survives beyond the rendering templates used for training.
+
+#### The result that changed the engineering priority
+Fusion improved ranking, but the visual channel caught **0% of tampered documents independently**. Its value was limited to sharpening scores on documents that semantic checks had already identified. That makes ledger reconciliation the load bearing component and pixel analysis a refinement, not a second line of defence.
+
+The project also refuses to disguise its blind spots. Copy move tampering and reprints were not detected at the chosen operating point. Localisation was strong for digit substitution but weak for splice. An OCR error sweep showed that reading errors increased false alarms far faster than they improved detection.
+
+#### Explaining every wrong decision
+Counterfactual repair traced five wrong decisions to their originating stage: 40% were visual false alarms, 40% had no usable evidence, and 20% were semantic blind spots. The evidence report can use an LLM for narration, but every number is checked and a deterministic template takes over when verification fails.
+
+</details>
+
+**What this proves:** computer vision and semantic system design with measurable failure boundaries, honest generalization tests, calibrated decisions, and error attribution that identifies what should be improved next.
+
+<br/>
+
 ---
 
 ## 🛠️ Toolkit
@@ -249,10 +301,6 @@ Five strategies were compared on profit, ROI, and incremental conversions: treat
 <img src="https://img.shields.io/badge/Google_Cloud-Professional_ML_Engineer-4285F4?style=flat-square&logo=googlecloud&logoColor=white" alt="Google Professional Machine Learning Engineer"/>
 <img src="https://img.shields.io/badge/Databricks-ML_Professional-FF3621?style=flat-square&logo=databricks&logoColor=white" alt="Databricks Certified Machine Learning Professional"/>
 <img src="https://img.shields.io/badge/Microsoft_Certified-MLOps_Engineer_Associate-0078D4?style=flat-square" alt="Microsoft Certified Machine Learning Operations Engineer Associate"/>
-
-## 🔬 Currently Building
-
-**Ledger Forensics:** a computer vision system that detects tampered receipts and invoices by fusing visual forensics with OCR, semantic, and arithmetic checks, producing a calibrated risk score that abstains when unsure. Generalization to unseen tampering methods is tested directly with leave one attack out experiments and attack strength curves, not a single headline accuracy.
 
 ## ⚙️ How I Work
 
