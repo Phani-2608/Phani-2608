@@ -1,0 +1,48 @@
+name: Hillstrom real-data benchmark
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'portfolio-projects/decision-intelligence-platform/**'
+      - '.github/workflows/hillstrom-real-benchmark.yml'
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: portfolio-projects/decision-intelligence-platform
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: portfolio-projects/decision-intelligence-platform/requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Download public randomized experiment into transient runner
+        run: |
+          mkdir -p private-datasets reports
+          curl --fail --location --show-error --silent --retry 3 --connect-timeout 20 \
+            'https://raw.githubusercontent.com/AdityaDabrase/ab-testing-email-marketing/main/data/raw/hillstrom.csv' \
+            -o private-datasets/hillstrom.csv
+          python -c "import pandas as pd; p=pd.read_csv('private-datasets/hillstrom.csv'); assert len(p)==64000, len(p); print('Validated dataset size:',len(p))"
+      - name: Evaluate held-out randomized treatment experiment
+        run: |
+          PYTHONPATH=. python -m scripts.benchmark_public_datasets hillstrom private-datasets/hillstrom.csv \
+            --variant 'Mens E-Mail' > reports/hillstrom_mens.json
+          sha256sum private-datasets/hillstrom.csv > reports/data_source.sha256
+          python -m json.tool reports/hillstrom_mens.json
+      - name: Upload only benchmark results and source checksum
+        uses: actions/upload-artifact@v4
+        with:
+          name: hillstrom-heldout-results
+          path: |
+            portfolio-projects/decision-intelligence-platform/reports/hillstrom_mens.json
+            portfolio-projects/decision-intelligence-platform/reports/data_source.sha256
+          if-no-files-found: error
+          retention-days: 30
