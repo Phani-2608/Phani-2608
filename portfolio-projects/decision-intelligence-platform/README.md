@@ -56,3 +56,20 @@ Hillstrom original challenge / experimental assignment: https://blog.minethatdat
 - Exposure-bias / negative-sampling diagnostics, time-forward global split, hyperparameter tuning and cold-start evaluation.
 - Proper causal uplift evaluation (Qini/AUUC/policy value with uncertainty), doubly robust estimates and propensity diagnostics where appropriate.
 - MLflow tracking, batch feature pipelines, drift monitoring, secured service auth, real deployment and CI benchmarks.
+
+
+## Real-data benchmark in GitHub Actions
+
+The `Hillstrom real-data benchmark` workflow runs on changes to this
+project's main branch or manually. It downloads a public mirror of Kevin
+Hillstrom's historical 64,000-customer randomized email experiment into
+the transient CI runner and validates the row count. The raw CSV is **not
+committed**. The job estimates the randomized conversion-rate difference
+(Mens E-Mail vs No E-Mail) on a disjoint 30% holdout, fits a T-learner
+on the other 70%, and publishes only a JSON metrics file and SHA-256
+dataset checksum as a workflow artifact. Results do **not** establish
+a live marketing improvement, and any estimated uplift is exploratory.
+
+Public source context: https://blog.minethatdata.com/2008/03/minethatdata-e-mail-analytics-and-data.html
+The mirror used by CI is the raw CSV in
+https://github.com/AdityaDabrase/ab-testing-email-marketing .
