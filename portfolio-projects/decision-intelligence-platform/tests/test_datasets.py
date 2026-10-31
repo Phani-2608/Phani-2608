@@ -47,3 +47,21 @@ def test_hillstrom_missing_pretreatment_fields(tmp_path):
     pd.DataFrame({'segment':['No E-Mail'],'conversion':[0]}).to_csv(path,index=False)
     with pytest.raises(ValueError,match='missing Hillstrom columns'):
         load_hillstrom(path)
+
+
+def test_hillstrom_suburban_source_spelling(tmp_path):
+    # The publisher's original CSV actually spells the category "Surburban".
+    rows = []
+    for i in range(30):
+        rows.append({
+            'segment': 'Mens E-Mail' if i % 2 else 'No E-Mail',
+            'conversion': int(i % 5 == 0), 'recency': i % 12 + 1,
+            'history': i * 12, 'mens': i % 2, 'womens': (i + 1) % 2,
+            'newbie': i % 3 == 0,
+            'zip_code': 'Surburban' if i % 3 == 0 else 'Rural',
+            'channel': 'Web'
+        })
+    path = tmp_path / 'hillstrom.csv'
+    pd.DataFrame(rows).to_csv(path, index=False)
+    frame, _ = load_hillstrom(path)
+    assert frame['zip_suburban'].sum() == 10
