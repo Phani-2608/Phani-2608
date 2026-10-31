@@ -21,3 +21,13 @@ cd ../decision-intelligence-platform && python -m pip install -r requirements.tx
 ```
 
 See the project READMEs for validation, architecture, limitations, and further research directions. CI runs on pull requests and commits affecting the portfolio directories.
+
+
+## Optional public deployment
+
+A Render infrastructure blueprint is provided at [`render.yaml`](render.yaml).
+Connect this GitHub repository to Render and supply a private `API_KEYS_JSON`
+for the investigation service. Demo keys are intentionally disabled on public
+deployments. Its SQLite database requires persistent disk storage, so select a
+Render plan that supports disks. The ML dashboard uses synthetic data by default.
+No public service has been provisioned or verified by this repository alone.
