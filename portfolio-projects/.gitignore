@@ -1,8 +1,0 @@
-__pycache__/
-.pytest_cache/
-*.pyc
-.env
-runtime/
-artifacts/
-*.sqlite3
-.venv/
