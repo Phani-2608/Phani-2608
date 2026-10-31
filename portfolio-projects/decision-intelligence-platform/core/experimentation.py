@@ -15,6 +15,7 @@ class ExperimentArtifacts:
     control: RandomForestClassifier
     metrics: dict
     bins: list[dict]
+    covariates: tuple[str, ...]
 
 
 def estimate_ate(df: pd.DataFrame):
@@ -34,36 +35,45 @@ def estimate_ate(df: pd.DataFrame):
             'method':'randomized difference in means with normal 95% CI'}
 
 
-def train_experiment(df:pd.DataFrame,seed=42):
+def train_experiment(df:pd.DataFrame,seed=42,covariates=None,dataset_name='synthetic'):
+    columns = tuple(covariates or COVARIATES)
+    if not columns or any(col not in df.columns for col in columns):
+        raise ValueError('missing pre-treatment covariates')
     train,test=train_test_split(df,test_size=.3,random_state=seed,stratify=df.treatment)
     def fit_arm(arm):
         subset=train[train.treatment==arm]
         model=RandomForestClassifier(n_estimators=90,max_depth=5,min_samples_leaf=10,random_state=seed+arm,n_jobs=-1)
-        model.fit(subset[COVARIATES],subset['conversion'])
+        model.fit(subset[list(columns)],subset['conversion'])
         return model
     control=fit_arm(0);treatment=fit_arm(1)
-    predicted=treatment.predict_proba(test[COVARIATES])[:,1]-control.predict_proba(test[COVARIATES])[:,1]
+    predicted=treatment.predict_proba(test[list(columns)])[:,1]-control.predict_proba(test[list(columns)])[:,1]
     # A synthetic ground truth is known from the generation process: diagnostic only.
-    mae=float(np.mean(np.abs(predicted-test['true_uplift'].to_numpy())))
+    mae=float(np.mean(np.abs(predicted-test['true_uplift'].to_numpy()))) if 'true_uplift' in test else None
     result=estimate_ate(test)
-    result.update({'test_rows':len(test),'train_rows':len(train),'uplift_mae_vs_synthetic_truth':round(mae,5),
-                   'synthetic_true_average_uplift':round(float(test['true_uplift'].mean()),5),
-                   'dataset':'synthetic randomized experiment'})
+    result.update({'test_rows':len(test),'train_rows':len(train),'uplift_mae_vs_synthetic_truth':round(mae,5) if mae is not None else None,
+                   'dataset':dataset_name})
+    if 'true_uplift' in test:
+        result['synthetic_true_average_uplift']=round(float(test['true_uplift'].mean()),5)
     # Descriptive bins only. Do not confuse observed bin differences with causal validation.
     ranked=test.copy();ranked['predicted_uplift']=predicted
     ranked['segment']=pd.qcut(ranked['predicted_uplift'].rank(method='first'),q=5,labels=False)
     bins=[]
     for bin_id,frame in ranked.groupby('segment',sort=False):
+        treated=frame.loc[frame.treatment==1,'conversion']
+        controls=frame.loc[frame.treatment==0,'conversion']
+        observed=float(treated.mean()-controls.mean()) if len(treated)>1 and len(controls)>1 else None
         bins.append({'segment':int(bin_id)+1,'count':int(len(frame)),
                      'predicted_uplift':round(float(frame.predicted_uplift.mean()),4),
-                     'observed_treatment_minus_control':round(float(frame.loc[frame.treatment==1,'conversion'].mean()-frame.loc[frame.treatment==0,'conversion'].mean()),4)})
+                     'observed_treatment_minus_control':round(observed,4) if observed is not None else None})
     bins.sort(key=lambda x:-x['predicted_uplift'])
-    return ExperimentArtifacts(treatment,control,result,bins)
+    return ExperimentArtifacts(treatment,control,result,bins,columns)
 
 
 def predict_uplift(artifacts:ExperimentArtifacts,age:int,prior_orders:int,interest:float):
     if not 18<=age<=100 or not 0<=prior_orders<=1000 or not 0<=interest<=1:
         raise ValueError('features outside synthetic data bounds')
+    if artifacts.covariates != tuple(COVARIATES):
+        raise ValueError('This endpoint only supports the synthetic demo feature schema')
     frame=pd.DataFrame([{'age':age,'prior_orders':prior_orders,'interest':interest}])
     p1=float(artifacts.treatment.predict_proba(frame)[:,1][0])
     p0=float(artifacts.control.predict_proba(frame)[:,1][0])

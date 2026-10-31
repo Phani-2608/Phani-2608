@@ -76,3 +76,28 @@ def test_api_health_metrics_recommend_and_uplift(client):
     assert 'estimated_conversion_uplift' in client.get('/uplift?age=40&prior_orders=3&interest=0.7').json()
     assert client.get('/recommend/user-001?k=100').status_code==422
     assert client.get('/uplift?age=2').status_code==422
+
+def test_unknown_user_recommendations_api(client):
+    payload=client.get('/recommend/a-brand-new-user?k=3').json()
+    assert len(payload['items'])==3
+    assert all(x['score'] is None and x['source']=='cold_start_popularity' for x in payload['items'])
+
+def test_metrics_are_reproducible():
+    a=metrics(train_all(42))
+    b=metrics(train_all(42))
+    assert a==b
+
+def test_experiment_requires_two_groups():
+    from core.experimentation import estimate_ate
+    import pandas as pd
+    with pytest.raises(ValueError):estimate_ate(pd.DataFrame({'treatment':[1,1,1],'conversion':[0,1,0]}))
+
+def test_experiment_rejects_nonbinary_treatment():
+    from core.experimentation import estimate_ate
+    import pandas as pd
+    with pytest.raises(ValueError):estimate_ate(pd.DataFrame({'treatment':[0,1,2,1],'conversion':[0,1,0,1]}))
+
+def test_dashboard_is_accessible(client):
+    result=client.get('/')
+    assert result.status_code==200
+    assert 'Decision Intelligence Lab' in result.text

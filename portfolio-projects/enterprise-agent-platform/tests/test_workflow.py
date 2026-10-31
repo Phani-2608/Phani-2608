@@ -72,3 +72,44 @@ def test_retry_does_not_duplicate_audit(client):
     retry=client.post('/cases/case-1/investigate',headers=headers,json=request)
     assert first.json()==retry.json()
     assert len(client.get('/cases/case-1/audit',headers=INV).json())==2
+
+def test_finalized_case_is_immutable(client):
+    record=new_case(client)
+    e=client.post('/cases/case-1/evidence',headers=INV,json={'evidence_id':'e','text':'transaction evidence','expected_revision':record['revision']}).json()
+    investigated=client.post('/cases/case-1/investigate',headers=INV,json={'expected_revision':e['revision']}).json()
+    approved=client.post('/cases/case-1/decision',headers=REV,json={'decision':'approve','expected_revision':investigated['revision']}).json()
+    assert client.post('/cases/case-1/evidence',headers=INV,json={'evidence_id':'new','text':'new evidence','expected_revision':approved['revision']}).status_code==409
+    assert client.post('/cases/case-1/investigate',headers=INV,json={'expected_revision':approved['revision']}).status_code==409
+
+def test_reviewer_cannot_create_case(client):
+    response=client.post('/cases',headers=REV,json={'case_id':'bad','customer_id':'customer','amount':2,'description':'A valid description'})
+    assert response.status_code==403
+
+def test_invalid_case_fields_are_rejected(client):
+    response=client.post('/cases',headers=INV,json={'case_id':'../oops','customer_id':'c','amount':-1,'description':'x'})
+    assert response.status_code==422
+
+def test_new_evidence_invalidates_previous_analysis(client):
+    record=new_case(client)
+    pending=client.post('/cases/case-1/investigate',headers=INV,json={'expected_revision':record['revision']}).json()
+    updated=client.post('/cases/case-1/evidence',headers=INV,json={'evidence_id':'e','text':'receipt and transaction','expected_revision':pending['revision']}).json()
+    assert updated['analysis'] is None
+    assert updated['status']=='new'
+
+def test_duplicate_case_returns_conflict(client):
+    new_case(client)
+    response=client.post('/cases',headers=INV,json={'case_id':'case-1','customer_id':'c','amount':20,'description':'description'})
+    assert response.status_code==409
+
+def test_reused_idempotency_key_for_other_action_is_rejected(client):
+    record=new_case(client)
+    ev=client.post('/cases/case-1/evidence',headers=INV,json={'evidence_id':'e','text':'receipt and transaction','expected_revision':record['revision']}).json()
+    investigated=client.post('/cases/case-1/investigate',headers={**INV,'Idempotency-Key':'shared-key'},json={'expected_revision':ev['revision']}).json()
+    assert client.post('/cases/case-1/decision',headers={**REV,'Idempotency-Key':'shared-key'},json={'decision':'approve','expected_revision':investigated['revision']}).status_code==409
+
+def test_production_fails_closed_without_api_keys(monkeypatch):
+    from backend.auth import load_credentials
+    monkeypatch.delenv('DEMO_MODE',raising=False)
+    monkeypatch.delenv('API_KEYS_JSON',raising=False)
+    with pytest.raises(RuntimeError,match='API_KEYS_JSON'):
+        load_credentials()
