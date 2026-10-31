@@ -101,3 +101,18 @@ def test_dashboard_is_accessible(client):
     result=client.get('/')
     assert result.status_code==200
     assert 'Decision Intelligence Lab' in result.text
+
+
+def test_ndcg_uses_same_deterministic_top_k_as_hit_rate():
+    import numpy as np
+    from core.ranking import evaluate_ranker
+    class FlatModel:
+        def predict_proba(self, features):
+            return np.tile([.5, .5], (len(features), 1))
+    candidates = [f'item-{i:03}' for i in range(25)]
+    categories = {item: 'unknown' for item in candidates}
+    result = evaluate_ranker(FlatModel(), ['u'], {'u': []},
+                             {'u': candidates[-1]}, categories, {}, candidates, k=10)
+    assert result['model_hit_rate_at_10'] == 0
+    assert result['model_ndcg_at_10'] == 0
+    assert result['popularity_ndcg_at_10'] == 0
