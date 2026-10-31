@@ -64,7 +64,7 @@ def load_hillstrom(csv_path: str | Path, treatment_variant='Mens E-Mail'):
     for field in fields:
         raw[field]=pd.to_numeric(raw[field],errors='raise')
     raw['zip_urban']=(raw.zip_code.astype(str).str.lower()=='urban').astype(int)
-    raw['zip_suburban']=(raw.zip_code.astype(str).str.lower()=='suburban').astype(int)
+    raw['zip_suburban']=(raw.zip_code.astype(str).str.lower().isin(['suburban','surburban'])).astype(int)
     raw['channel_web']=(raw.channel.astype(str).str.lower()=='web').astype(int)
     raw['channel_multichannel']=(raw.channel.astype(str).str.lower()=='multichannel').astype(int)
     covariates=['recency','history','mens','womens','newbie','zip_urban','zip_suburban','channel_web','channel_multichannel']
