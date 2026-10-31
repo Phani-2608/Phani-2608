@@ -1,0 +1,193 @@
+{
+  "version": "2026-10-31",
+  "purpose": "stable portfolio evidence used for multiple resume targets",
+  "provenance": "Existing public portfolio Experience section and user-provided work context; employer achievements are self-reported, not independently audited",
+  "do_not_invent": true,
+  "people": [
+    {
+      "company": "PayPal",
+      "title": "Generative AI Engineer",
+      "from": "2025-08",
+      "to": null,
+      "business_context": "Payments and Risk Intelligence; environment handles approximately 4 million payment events per day",
+      "evidence": [
+        {
+          "id": "PP01",
+          "theme": "fraud model decisions",
+          "claim": "Fraud-model segmentation identified low-history segment threshold mismatch; segment-specific thresholds reduced false-positive alerts about 32% while maintaining fraud recall.",
+          "metrics": {
+            "false_positive_reduction_pct": 32
+          },
+          "focus": [
+            "data",
+            "ml",
+            "risk"
+          ],
+          "avoid": "Do not say GenAI transaction monitoring directly caused this reduction."
+        },
+        {
+          "id": "PP02",
+          "theme": "AI workflows",
+          "claim": "LangGraph/FastAPI tool-using dispute process with human approval shortened case turnaround from 3–5 days to under 4 hours.",
+          "metrics": {
+            "prior_days": "3–5",
+            "new_hours": "under 4"
+          },
+          "focus": [
+            "genai",
+            "ml",
+            "risk"
+          ]
+        },
+        {
+          "id": "PP03",
+          "theme": "retrieval evaluation",
+          "claim": "Hybrid search, filtering, and reranking improved Precision@5 from 0.76 to 0.89 across approximately 300 labeled queries.",
+          "metrics": {
+            "precision_at_5_before": 0.76,
+            "precision_at_5_after": 0.89,
+            "labeled_queries_approx": 300
+          },
+          "focus": [
+            "genai",
+            "ml",
+            "data"
+          ]
+        },
+        {
+          "id": "PP04",
+          "theme": "production operations",
+          "claim": "Used production monitoring, release evaluation, and incident review practices for FastAPI AI services; reported 99.8% availability.",
+          "metrics": {
+            "availability_pct": 99.8
+          },
+          "focus": [
+            "ml",
+            "genai"
+          ]
+        },
+        {
+          "id": "PP05",
+          "theme": "multilingual support",
+          "claim": "Multilingual RAG support across 25 languages was associated with a 28% increase in first-contact resolution.",
+          "metrics": {
+            "languages": 25,
+            "fcr_improvement_pct": 28
+          },
+          "focus": [
+            "genai",
+            "data"
+          ]
+        },
+        {
+          "id": "PP06",
+          "theme": "collaboration",
+          "claim": "Worked with risk, compliance, product, and engineering colleagues on thresholds, release readiness, and workflow controls.",
+          "focus": [
+            "data",
+            "risk",
+            "ml"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Cigna Healthcare",
+      "title": "Machine Learning Engineer",
+      "from": "2022-06",
+      "to": "2024-07",
+      "business_context": "Healthcare ML and clinical informatics",
+      "evidence": [
+        {
+          "id": "CH01",
+          "theme": "clinical NLP",
+          "claim": "Fine-tuned BioBERT/ClinicalBERT on 500K+ deidentified notes, reaching around 0.91 F1; confidence-based review reduced manual chart work by about 65%.",
+          "metrics": {
+            "notes_min": 500000,
+            "f1_approx": 0.91,
+            "chart_review_reduction_pct": 65
+          },
+          "focus": [
+            "ml",
+            "health"
+          ]
+        },
+        {
+          "id": "CH02",
+          "theme": "patient risk modeling",
+          "claim": "Built risk/readmission models across 2M+ patient records and 320+ features, with approximately 19% fewer preventable readmissions.",
+          "metrics": {
+            "patient_records_min": 2000000,
+            "feature_count_min": 320,
+            "preventable_readmissions_reduction_pct_approx": 19
+          },
+          "focus": [
+            "data",
+            "ml",
+            "health",
+            "risk"
+          ]
+        },
+        {
+          "id": "CH03",
+          "theme": "data engineering",
+          "claim": "Developed validated Python/SQL/PySpark feature pipelines integrating 15+ EHR, claims, pharmacy and laboratory sources.",
+          "metrics": {
+            "data_sources_min": 15
+          },
+          "focus": [
+            "data",
+            "ml",
+            "health"
+          ]
+        },
+        {
+          "id": "CH04",
+          "theme": "MLOps",
+          "claim": "Supported ML deployment, drift monitoring and controlled retraining using Azure ML, Docker, Kubernetes and MLflow; reported 99.9% service availability.",
+          "metrics": {
+            "availability_pct": 99.9
+          },
+          "focus": [
+            "ml",
+            "health"
+          ]
+        },
+        {
+          "id": "CH05",
+          "theme": "model validation",
+          "claim": "Applied calibration, SHAP, bootstrap intervals, subgroup analysis and threshold review with clinical stakeholders.",
+          "focus": [
+            "data",
+            "ml",
+            "health"
+          ]
+        },
+        {
+          "id": "CH06",
+          "theme": "medical imaging",
+          "claim": "Evaluated chest X-ray classification/segmentation, reporting 94%+ validation classification accuracy.",
+          "metrics": {
+            "classification_validation_accuracy_pct_min": 94
+          },
+          "focus": [
+            "ml",
+            "health"
+          ],
+          "avoid": "Do not claim 3x radiologist throughput; source portfolio contains that but the supporting evidence was not established."
+        }
+      ]
+    }
+  ],
+  "lens_definitions": {
+    "all": "All areas",
+    "data": "Data science",
+    "ml": "ML engineering",
+    "genai": "GenAI & agents",
+    "health": "Healthcare AI",
+    "risk": "Fraud & risk"
+  },
+  "source_link": "https://phanindra26.netlify.app/#experience",
+  "public_github_project_source": null,
+  "site_deployment_status": "Reusable drop-in delivered; live Netlify website not modified"
+}
