@@ -1,0 +1,26 @@
+# Optional deployment blueprint. Connect this repository in Render to deploy.
+# The investigation API requires privately configured API_KEYS_JSON; demo keys are disabled.
+services:
+  - type: web
+    name: portfolio-investigation-api
+    runtime: docker
+    rootDir: portfolio-projects/enterprise-agent-platform
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: DEMO_MODE
+        value: '0'
+      - key: API_KEYS_JSON
+        sync: false
+      - key: DB_PATH
+        value: /srv/runtime/cases.sqlite3
+    disk:
+      name: investigation-state
+      mountPath: /srv/runtime
+      sizeGB: 1
+  - type: web
+    name: portfolio-decision-intelligence
+    runtime: docker
+    rootDir: portfolio-projects/decision-intelligence-platform
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health

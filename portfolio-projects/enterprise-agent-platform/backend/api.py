@@ -89,19 +89,32 @@ def create_app(db_path: str | None = None, demo_mode: bool | None = None) -> Fas
             raise HTTPException(404, 'case not found')
         return result
 
+    def replay_if_identical(tenant: str, case_id: str, token: str, action: str, revision: int, decision: str | None = None):
+        # Reusing a token with different request arguments is a conflict, never a replay.
+        import json
+        with store.connect() as db:
+            row = db.execute('SELECT action,response FROM idempotency WHERE tenant=? AND case_id=? AND token=?',
+                             (tenant, case_id, token)).fetchone()
+        if row is None:
+            return None
+        if row['action'] != action:
+            raise HTTPException(409, 'idempotency key already used for another action')
+        previous = json.loads(row['response'])
+        if previous['revision'] != revision + 1:
+            raise HTTPException(409, 'idempotency key already used with a different revision')
+        if decision is not None and previous['status'] != ('approved' if decision == 'approve' else 'rejected'):
+            raise HTTPException(409, 'idempotency key already used with a different decision')
+        return previous
+
     @app.post('/cases/{case_id}/investigate')
     def investigate(case_id: str, body: RevisionRequest,
                     idempotency_key: str | None = Header(default=None, max_length=120),
                     who: Principal = Depends(investigator)):
         case = get_case(who.tenant, case_id)
         if idempotency_key:
-            # A retry must return the stored response even after the revision has advanced.
-            with store.connect() as db:
-                row = db.execute('SELECT action,response FROM idempotency WHERE tenant=? AND case_id=? AND token=?',
-                                 (who.tenant, case_id, idempotency_key)).fetchone()
-                if row and row['action'] == 'investigate':
-                    import json
-                    return json.loads(row['response'])
+            previous = replay_if_identical(who.tenant, case_id, idempotency_key, 'investigate', body.expected_revision)
+            if previous is not None:
+                return previous
         if case['revision'] != body.expected_revision:
             raise HTTPException(409, 'revision mismatch; refresh case')
         analysis = run_case(case)
@@ -116,12 +129,9 @@ def create_app(db_path: str | None = None, demo_mode: bool | None = None) -> Fas
                  idempotency_key: str | None = Header(default=None, max_length=120),
                  who: Principal = Depends(reviewer)):
         if idempotency_key:
-            with store.connect() as db:
-                row = db.execute('SELECT action,response FROM idempotency WHERE tenant=? AND case_id=? AND token=?',
-                                 (who.tenant, case_id, idempotency_key)).fetchone()
-                if row and row['action'] == 'decide':
-                    import json
-                    return json.loads(row['response'])
+            previous = replay_if_identical(who.tenant, case_id, idempotency_key, 'decide', body.expected_revision, body.decision)
+            if previous is not None:
+                return previous
         try:
             result = store.decide(who.tenant, case_id, body.decision, who.role, body.expected_revision, idempotency_key)
         except ConflictError as exc:

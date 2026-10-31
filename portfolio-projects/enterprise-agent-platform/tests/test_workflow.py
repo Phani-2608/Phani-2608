@@ -113,3 +113,18 @@ def test_production_fails_closed_without_api_keys(monkeypatch):
     monkeypatch.delenv('API_KEYS_JSON',raising=False)
     with pytest.raises(RuntimeError,match='API_KEYS_JSON'):
         load_credentials()
+
+
+def test_idempotency_rejects_changed_payload(client):
+    record=new_case(client)
+    ev=client.post('/cases/case-1/evidence',headers=INV,json={'evidence_id':'receipt','text':'transaction evidence','expected_revision':record['revision']}).json()
+    h={**INV,'Idempotency-Key':'one-investigation'}
+    first=client.post('/cases/case-1/investigate',headers=h,json={'expected_revision':ev['revision']})
+    assert first.status_code==200
+    assert client.post('/cases/case-1/investigate',headers=h,json={'expected_revision':ev['revision']+1}).status_code==409
+    decision_headers={**REV,'Idempotency-Key':'one-decision'}
+    revision=first.json()['revision']
+    assert client.post('/cases/case-1/decision',headers=decision_headers,json={'expected_revision':revision,'decision':'approve'}).status_code==200
+    assert client.post('/cases/case-1/decision',headers=decision_headers,json={'expected_revision':revision,'decision':'reject'}).status_code==409
+    assert client.post('/cases/case-1/decision',headers=decision_headers,json={'expected_revision':revision+1,'decision':'approve'}).status_code==409
+    assert client.get('/cases/case-1',headers=INV).json()['status']=='approved'
