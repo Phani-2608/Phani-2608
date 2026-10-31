@@ -1,0 +1,203 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Experience | PayPal & Cigna Healthcare — Universal Portfolio Section</title><style>body{margin:0;background:#0c1322;color:#fff}html{scroll-behavior:smooth} .demo-header{font:600 12px/1.5 system-ui;padding:18px clamp(22px,5vw,54px);background:#080d18;border-bottom:1px solid #243348;display:flex;justify-content:space-between;align-items:center}.demo-header a{color:#7fe3c9}.demo-header small{color:#b1bed1}</style></head><body><header class="demo-header"><span>PHANINDRA REDDY MATHIREDDY <small>/ Universal Experience Concept</small></span><a href="https://phanindra26.netlify.app/" rel="noopener noreferrer">Current portfolio ↗</a></header><!-- Universal experience section: replace the current <section id="experience">...</section>.
+     All role views reorder the SAME evidence; they do not alter employers, dates, or claims.
+     No external packages, fonts, network requests or tracking. -->
+<style>
+  #experience.ux-experience {
+    --ux-bg: #0c1322;
+    --ux-surface: #121d30;
+    --ux-surface-2: #17243a;
+    --ux-ink: #eef4fb;
+    --ux-muted: #a2afc2;
+    --ux-accent: #6ce4c2;
+    --ux-line: rgba(193,217,236,.14);
+    --ux-orange: #e5b67c;
+    position: relative;
+    isolation: isolate;
+    color: var(--ux-ink);
+    background: var(--ux-bg);
+    padding: clamp(64px, 7vw, 104px) 20px;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    overflow: hidden;
+  }
+  #experience.ux-experience *, #experience.ux-experience *::before, #experience.ux-experience *::after {box-sizing:border-box}
+  #experience.ux-experience::before {
+    content:""; pointer-events:none; position:absolute; top:-180px; right:-130px; width:600px; height:480px;
+    background:radial-gradient(circle,rgba(50,161,148,.17),transparent 65%); z-index:-1;
+  }
+  #experience .ux-wrap {max-width:1140px; margin:0 auto;}
+  #experience .ux-eyebrow {font-size:11px; color:var(--ux-accent); letter-spacing:.18em; font-weight:760; text-transform:uppercase; margin:0 0 15px;}
+  #experience .ux-intro {display:grid;grid-template-columns:minmax(0,1.2fr) minmax(250px,.6fr); gap:32px; align-items:end; margin-bottom:35px;}
+  #experience .ux-title {font-size:clamp(32px,5vw,55px);line-height:1.06;letter-spacing:-.055em;font-weight:750;margin:0;max-width:750px;}
+  #experience .ux-title em {font-style:normal;color:var(--ux-accent);}
+  #experience .ux-intro-note {font-size:15px;line-height:1.7;color:var(--ux-muted);margin:0 0 3px;}
+  #experience .ux-lensbar {padding:18px 19px;background:rgba(255,255,255,.027);border:1px solid var(--ux-line);border-radius:15px;margin-bottom:14px;}
+  #experience .ux-lens-label {font-size:11px;color:var(--ux-muted);font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:11px;}
+  #experience .ux-filters {display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin;}
+  #experience .ux-filter {appearance:none; flex:0 0 auto; cursor:pointer; color:var(--ux-muted);background:rgba(255,255,255,.04);border:1px solid var(--ux-line);border-radius:100px;padding:10px 15px;font-family:inherit;font-size:12px;font-weight:650;line-height:1.2;transition:background .16s,color .16s,border .16s;}
+  #experience .ux-filter:hover {color:#fff;border-color:rgba(108,228,194,.45);}
+  #experience .ux-filter[aria-pressed="true"] {background:var(--ux-accent);color:#07291f;border-color:var(--ux-accent);}
+  #experience button:focus-visible, #experience a:focus-visible {outline:3px solid var(--ux-orange);outline-offset:3px;}
+  #experience .ux-lens-summary {font-size:13px;line-height:1.65;color:var(--ux-muted);min-height:23px;margin:14px 0 0;}
+  #experience .ux-cards {display:grid;gap:16px;}
+  #experience .ux-company {border:1px solid var(--ux-line);border-radius:19px;background:linear-gradient(145deg,rgba(255,255,255,.032),rgba(255,255,255,.009)),var(--ux-surface);padding:clamp(20px,3vw,32px);}
+  #experience .ux-company-top {display:flex;justify-content:space-between;gap:22px;align-items:start;}
+  #experience .ux-company-id {display:flex;align-items:center;gap:14px;}
+  #experience .ux-company-mark {width:47px;height:47px;display:flex;align-items:center;justify-content:center;border-radius:13px;flex:0 0 auto;background:rgba(108,228,194,.12);border:1px solid rgba(108,228,194,.2);color:var(--ux-accent);font-weight:900;font-size:15px;letter-spacing:-.05em;}
+  #experience .ux-company:nth-child(2) .ux-company-mark {background:rgba(229,182,124,.1);border-color:rgba(229,182,124,.22);color:var(--ux-orange);}
+  #experience .ux-company-name {font-size:21px;letter-spacing:-.025em;line-height:1.1;margin:0 0 6px;font-weight:800;color:var(--ux-ink);}
+  #experience .ux-job-title {color:var(--ux-muted);font-size:13px;line-height:1.4;margin:0;}
+  #experience .ux-dates {white-space:nowrap;color:var(--ux-muted);font-size:12px;padding:5px 0;}
+  #experience .ux-statement {font-size:15px;line-height:1.72;color:#ced9e7;margin:23px 0 21px;max-width:940px;}
+  #experience .ux-metrics {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:0 0 24px;}
+  #experience .ux-metric {background:var(--ux-surface-2);border:1px solid var(--ux-line);border-radius:11px;padding:13px 14px;}
+  #experience .ux-metric-value {font-size:clamp(18px,2vw,24px);line-height:1.2;letter-spacing:-.035em;font-weight:780;margin:0 0 5px;color:var(--ux-ink);}
+  #experience .ux-metric-caption {font-size:11px;color:var(--ux-muted);line-height:1.45;margin:0;}
+  #experience .ux-evidence-heading {font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--ux-muted);font-weight:750;margin:0 0 8px;}
+  #experience .ux-evidence {list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;}
+  #experience .ux-evidence-item {display:flex;gap:11px;background:rgba(255,255,255,.018);border:1px solid var(--ux-line);border-radius:11px;padding:15px 14px;min-width:0;}
+  #experience .ux-evidence-item[hidden] {display:none !important;}
+  #experience .ux-evidence-dot {width:7px;height:7px;flex:0 0 7px;background:var(--ux-accent);border-radius:100%;margin-top:7px;}
+  #experience .ux-company:nth-child(2) .ux-evidence-dot {background:var(--ux-orange);}
+  #experience .ux-evidence-item strong {font-size:13px;font-weight:740;color:var(--ux-ink);display:block;margin:0 0 4px;line-height:1.35;}
+  #experience .ux-evidence-item p {font-size:12px;line-height:1.6;margin:0;color:var(--ux-muted);}
+  #experience .ux-company-footer {display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap;}
+  #experience .ux-stack {font-size:11px;color:var(--ux-muted);line-height:1.7;max-width:740px;}
+  #experience .ux-more {appearance:none;background:none;border:0;color:var(--ux-accent);font-size:12px;font-weight:750;cursor:pointer;padding:9px 0;white-space:nowrap;}
+  #experience .ux-more:hover {text-decoration:underline;}
+  #experience .ux-bottom {display:flex;justify-content:space-between;align-items:center;gap:18px;margin:20px 0 0;flex-wrap:wrap;}
+  #experience .ux-guardrail {font-size:12px;line-height:1.6;color:var(--ux-muted);margin:0;max-width:780px;}
+  #experience .ux-anchor {font-size:12px;font-weight:740;color:var(--ux-accent);text-decoration:none;white-space:nowrap;}
+  #experience .ux-anchor:hover {text-decoration:underline;}
+  @media(max-width:780px) {#experience .ux-intro {grid-template-columns:1fr;gap:12px;}#experience .ux-company-top {flex-direction:column;gap:9px;}#experience .ux-evidence{grid-template-columns:1fr;}#experience .ux-metrics{grid-template-columns:repeat(3,minmax(0,1fr));}#experience .ux-company{padding:19px;} }
+  @media(max-width:460px) {#experience .ux-metrics{grid-template-columns:1fr 1fr;}#experience .ux-metric:last-child{grid-column:span 2;}#experience .ux-title{font-size:34px;}#experience .ux-company-name{font-size:19px;}#experience .ux-lensbar{padding:15px 14px;} }
+  @media(prefers-reduced-motion:reduce) {#experience .ux-filter {transition:none}}
+</style>
+<section id="experience" class="ux-experience" aria-labelledby="ux-experience-title">
+  <div class="ux-wrap">
+    <p class="ux-eyebrow">02 / Experience</p>
+    <div class="ux-intro">
+      <h2 class="ux-title" id="ux-experience-title">From model decisions to <em>real-world systems.</em></h2>
+      <p class="ux-intro-note">My experience spans financial risk, clinical machine learning, data analysis, and production AI. Explore the same work through the lens most relevant to you.</p>
+    </div>
+    <div class="ux-lensbar">
+      <span class="ux-lens-label">Explore by focus</span>
+      <div class="ux-filters" role="group" aria-label="Filter experience by career focus">
+        <button type="button" class="ux-filter" data-ux-focus="all" aria-pressed="true">All areas</button>
+        <button type="button" class="ux-filter" data-ux-focus="data" aria-pressed="false">Data science</button>
+        <button type="button" class="ux-filter" data-ux-focus="ml" aria-pressed="false">ML engineering</button>
+        <button type="button" class="ux-filter" data-ux-focus="genai" aria-pressed="false">GenAI &amp; agents</button>
+        <button type="button" class="ux-filter" data-ux-focus="health" aria-pressed="false">Healthcare AI</button>
+        <button type="button" class="ux-filter" data-ux-focus="risk" aria-pressed="false">Fraud &amp; risk</button>
+      </div>
+      <p class="ux-lens-summary" id="ux-lens-summary" aria-live="polite">A cross-functional view of modeling, experimentation, production engineering, and measurable outcomes.</p>
+    </div>
+    <div class="ux-cards">
+      <article class="ux-company" data-ux-company="paypal" aria-labelledby="ux-paypal-heading">
+        <div class="ux-company-top">
+          <div class="ux-company-id">
+            <div class="ux-company-mark" aria-hidden="true">PP</div>
+            <div><h3 class="ux-company-name" id="ux-paypal-heading">PayPal</h3><p class="ux-job-title">Generative AI Engineer</p></div>
+          </div>
+          <span class="ux-dates">Aug 2025 – Present</span>
+        </div>
+        <p class="ux-statement">I work on AI-assisted investigation, retrieval, and decision workflows in a payments and risk environment processing approximately 4 million payment events a day. The recurring challenge is making model outputs useful in operational decisions, then testing whether a change actually improves those decisions.</p>
+        <div class="ux-metrics" aria-label="PayPal outcomes">
+          <div class="ux-metric"><p class="ux-metric-value">32% ↓</p><p class="ux-metric-caption">False-positive alerts, fraud recall maintained</p></div>
+          <div class="ux-metric"><p class="ux-metric-value">&lt;4 hours</p><p class="ux-metric-caption">Dispute workflow, down from 3–5 days</p></div>
+          <div class="ux-metric"><p class="ux-metric-value">0.76 → 0.89</p><p class="ux-metric-caption">Retrieval Precision@5 in labeled evaluation</p></div>
+        </div>
+        <h4 class="ux-evidence-heading">Selected work</h4>
+        <ul class="ux-evidence" data-ux-evidence-list id="ux-paypal-evidence">
+          <li class="ux-evidence-item" data-ux-tags="data ml risk" data-ux-base="1"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Fraud decision analysis</strong><p>Segmented model behavior for customers with limited transaction history; a segment-specific threshold reduced false positives by about a third without changing fraud recall.</p></div></li>
+          <li class="ux-evidence-item" data-ux-tags="genai ml risk" data-ux-base="2"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Agent-assisted case workflows</strong><p>Built Python, FastAPI, and LangGraph workflows with tool calls, conditional routing, and human approvals for payment disputes.</p></div></li>
+          <li class="ux-evidence-item" data-ux-tags="genai ml data" data-ux-base="3"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Retrieval quality experiments</strong><p>Improved top-five retrieval precision on roughly 300 labeled queries with hybrid search, metadata filtering, and reranking.</p></div></li>
+          <li class="ux-evidence-item" data-ux-tags="ml genai" data-ux-base="4"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Production reliability and evaluation</strong><p>Combined MLflow and LangSmith regression checks with service telemetry and failure monitoring; supported 99.8% availability.</p></div></li>
+          <li class="ux-evidence-item" data-ux-tags="genai data" data-ux-base="5"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Customer support automation</strong><p>Developed multilingual retrieval assistance across 25 languages, contributing to a 28% increase in first-contact resolution.</p></div></li>
+          <li class="ux-evidence-item" data-ux-tags="risk data ml" data-ux-base="6"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Operational partnership</strong><p>Worked with risk, compliance, product, and engineering colleagues on thresholds, tool permissions, release evaluations, and reviewer checkpoints.</p></div></li>
+        </ul>
+        <div class="ux-company-footer"><div class="ux-stack">Python · SQL · LangGraph · FastAPI · RAG · FAISS / Pinecone / OpenSearch · LangSmith · MLflow · AWS</div><button type="button" class="ux-more" data-ux-expand aria-expanded="false" aria-controls="ux-paypal-evidence">View all contributions +</button></div>
+      </article>
+      <article class="ux-company" data-ux-company="cigna" aria-labelledby="ux-cigna-heading">
+        <div class="ux-company-top">
+          <div class="ux-company-id"><div class="ux-company-mark" aria-hidden="true">CH</div><div><h3 class="ux-company-name" id="ux-cigna-heading">Cigna Healthcare</h3><p class="ux-job-title">Machine Learning Engineer</p></div></div>
+          <span class="ux-dates">Jun 2022 – Jul 2024</span>
+        </div>
+        <p class="ux-statement">I developed clinical NLP and predictive ML systems using complex healthcare data, with a strong focus on model evaluation, safe human review, data quality, and deployment reliability.</p>
+        <div class="ux-metrics" aria-label="Cigna outcomes">
+          <div class="ux-metric"><p class="ux-metric-value">0.91 F1</p><p class="ux-metric-caption">Clinical NLP extraction evaluation</p></div>
+          <div class="ux-metric"><p class="ux-metric-value">65% ↓</p><p class="ux-metric-caption">Manual clinical chart-review effort</p></div>
+          <div class="ux-metric"><p class="ux-metric-value">2M+</p><p class="ux-metric-caption">Patient records used in predictive modeling</p></div>
+        </div>
+        <h4 class="ux-evidence-heading">Selected work</h4>
+        <ul class="ux-evidence" data-ux-evidence-list id="ux-cigna-evidence">
+          <li class="ux-evidence-item" data-ux-tags="ml health" data-ux-base="1"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Clinical NLP and human review</strong><p>Fine-tuned BioBERT / ClinicalBERT on more than 500K deidentified notes to extract diagnoses and medications, with lower-confidence cases routed for review.</p></div></li>
+          <li class="ux-evidence-item" data-ux-tags="data ml health risk" data-ux-base="2"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Predictive risk modeling</strong><p>Developed readmission and patient-risk models across 2M+ records and 320+ features, contributing to an approximately 19% decline in preventable readmissions.</p></div></li>
+          <li class="ux-evidence-item" data-ux-tags="data ml health" data-ux-base="3"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Healthcare data pipelines</strong><p>Built validated Python, SQL, and PySpark features from 15+ EHR, claims, laboratory, and pharmacy sources in Databricks and Snowflake.</p></div></li>
+          <li class="ux-evidence-item" data-ux-tags="ml health" data-ux-base="4"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Deployment and monitoring</strong><p>Used Azure ML, Docker, Kubernetes, and MLflow for versioned deployment, drift checks, and retraining controls; supported 99.9% service availability.</p></div></li>
+          <li class="ux-evidence-item" data-ux-tags="data health ml" data-ux-base="5"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Model validation with clinical teams</strong><p>Used calibration, SHAP, bootstrap intervals, subgroup analysis, and threshold tuning to balance model quality with clinical review capacity.</p></div></li>
+          <li class="ux-evidence-item" data-ux-tags="ml health" data-ux-base="6"><span class="ux-evidence-dot" aria-hidden="true"></span><div><strong>Medical image model evaluation</strong><p>Evaluated chest X-ray classification and segmentation using convolutional networks, with 94%+ validation accuracy in the classification work.</p></div></li>
+        </ul>
+        <div class="ux-company-footer"><div class="ux-stack">Python · SQL · PyTorch · BioBERT / ClinicalBERT · XGBoost · LightGBM · PySpark · Azure ML · MLflow</div><button type="button" class="ux-more" data-ux-expand aria-expanded="false" aria-controls="ux-cigna-evidence">View all contributions +</button></div>
+      </article>
+    </div>
+    <div class="ux-bottom"><p class="ux-guardrail">Each view highlights a different part of the same experience. Employers, roles, dates, metrics, and underlying claims are unchanged.</p><a class="ux-anchor" href="https://github.com/Phani-2608" target="_blank" rel="noopener noreferrer">Explore my technical projects ↗</a></div>
+  </div>
+</section>
+<script>
+(function () {
+  'use strict';
+  const root=document.getElementById('experience');
+  if(!root || root.dataset.uxInitialized==='1')return;
+  root.dataset.uxInitialized='1';
+  const summary=root.querySelector('#ux-lens-summary');
+  const filters=[...root.querySelectorAll('[data-ux-focus]')];
+  const companies=[...root.querySelectorAll('[data-ux-company]')];
+  const explanations={
+    all:'A cross-functional view of modeling, experimentation, production engineering, and measurable outcomes.',
+    data:'Statistical investigations, feature engineering, reliable measurement, and decisions informed by evidence.',
+    ml:'Model development, validation, deployment pipelines, observability, and production stability.',
+    genai:'Retrieval quality, tool-using workflows, evaluation, controlled automation, and human review.',
+    health:'Clinical NLP, patient risk models, healthcare data, and validation with care teams.',
+    risk:'Fraud errors, risk thresholds, safer automated workflows, and defensible decision support.'
+  };
+  const valid=new Set(Object.keys(explanations));
+  let selected='all';
+  const expanded={paypal:false,cigna:false};
+  function setFocus(focus, syncUrl) {
+    selected=valid.has(focus)?focus:'all';
+    summary.textContent=explanations[selected];
+    for(const b of filters)b.setAttribute('aria-pressed',String(b.dataset.uxFocus===selected));
+    for(const card of companies){
+      const id=card.dataset.uxCompany;
+      const list=card.querySelector('[data-ux-evidence-list]');
+      const items=[...list.querySelectorAll('[data-ux-tags]')];
+      items.sort((a,b)=>{
+        const aMatch=selected==='all'?0:(a.dataset.uxTags.split(' ').includes(selected)?1:0);
+        const bMatch=selected==='all'?0:(b.dataset.uxTags.split(' ').includes(selected)?1:0);
+        return bMatch-aMatch || Number(a.dataset.uxBase)-Number(b.dataset.uxBase);
+      });
+      for(const item of items)list.appendChild(item);
+      items.forEach((item,i)=>item.hidden=!expanded[id] && i>=4);
+      const more=card.querySelector('[data-ux-expand]');
+      more.textContent=expanded[id]?'Show fewer contributions −':'View all contributions +';
+      more.setAttribute('aria-expanded',String(expanded[id]));
+    }
+    if(syncUrl && /^(https?:)$/.test(window.location.protocol) && window.history && window.history.replaceState){
+      const url=new URL(window.location.href);
+      if(selected==='all')url.searchParams.delete('focus');else url.searchParams.set('focus',selected);
+      // Deep-linking is optional; this will never reload the page.
+      window.history.replaceState(null,'',url.pathname+url.search+url.hash);
+    }
+  }
+  filters.forEach(button=>button.addEventListener('click',()=>setFocus(button.dataset.uxFocus,true)));
+  companies.forEach(card=>{
+    card.querySelector('[data-ux-expand]').addEventListener('click',()=>{
+      expanded[card.dataset.uxCompany]=!expanded[card.dataset.uxCompany];setFocus(selected,false);
+    });
+  });
+  // Example: https://example.com/?focus=health#experience
+  const initial=new URLSearchParams(window.location.search).get('focus');
+  setFocus(initial||'all',false);
+})();
+</script>
+</body></html>
