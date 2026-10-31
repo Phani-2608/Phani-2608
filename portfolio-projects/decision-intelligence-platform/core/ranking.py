@@ -5,7 +5,6 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import HistGradientBoostingClassifier
-from sklearn.metrics import ndcg_score
 
 @dataclass
 class RankingArtifacts:
@@ -52,8 +51,12 @@ def evaluate_ranker(model, test_users, history, target, categories, popularity, 
         truth=np.asarray([1 if x==target[user] else 0 for x in pool])
         for scores, hits, ndcgs in [(ml_scores,hit_model,ndcg_model),(baseline,hit_pop,ndcg_pop)]:
             order=sorted(range(len(pool)), key=lambda i:(-float(scores[i]),pool[i]))
-            hits.append(int(target[user] in [pool[i] for i in order[:k]]))
-            ndcgs.append(float(ndcg_score(truth.reshape(1,-1),scores.reshape(1,-1),k=k)))
+            top_items=[pool[i] for i in order[:k]]
+            hit=target[user] in top_items
+            hits.append(int(hit))
+            # Use the same deterministic tie-break for HitRate and NDCG.
+            # Tie-averaged ndcg_score otherwise credits items outside top K.
+            ndcgs.append(float(1/np.log2(top_items.index(target[user])+2)) if hit else 0.0)
     return {
         'model_hit_rate_at_10':round(float(np.mean(hit_model)),4),
         'popularity_hit_rate_at_10':round(float(np.mean(hit_pop)),4),
