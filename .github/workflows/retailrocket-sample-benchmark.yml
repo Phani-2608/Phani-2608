@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/retailrocket-sample-benchmark.yml'
+      - 'portfolio-projects/decision-intelligence-platform/core/ranking.py'
+      - 'portfolio-projects/decision-intelligence-platform/core/datasets.py'
+      - 'portfolio-projects/decision-intelligence-platform/scripts/benchmark_public_datasets.py'
 jobs:
   evaluate:
     runs-on: ubuntu-latest
