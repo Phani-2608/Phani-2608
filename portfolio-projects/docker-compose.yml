@@ -1,0 +1,15 @@
+services:
+  investigation:
+    build: ./enterprise-agent-platform
+    environment:
+      DEMO_MODE: '1'
+    ports:
+      - '127.0.0.1:8000:8000'
+    volumes:
+      - investigation_state:/srv/runtime
+  decision-intelligence:
+    build: ./decision-intelligence-platform
+    ports:
+      - '127.0.0.1:8001:8001'
+volumes:
+  investigation_state:
