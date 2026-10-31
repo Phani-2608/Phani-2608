@@ -4,6 +4,7 @@ import json
 import sqlite3
 from pathlib import Path
 from datetime import datetime, timezone
+from contextlib import contextmanager
 from typing import Any
 
 class ConflictError(ValueError):
@@ -34,12 +35,20 @@ class CaseStore:
                 );
             """)
 
+    @contextmanager
     def connect(self):
         db = sqlite3.connect(self.path, timeout=10)
         db.row_factory = sqlite3.Row
-        db.execute('PRAGMA foreign_keys=ON')
-        db.execute('PRAGMA busy_timeout=10000')
-        return db
+        try:
+            db.execute('PRAGMA foreign_keys=ON')
+            db.execute('PRAGMA busy_timeout=10000')
+            yield db
+            db.commit()
+        except Exception:
+            db.rollback()
+            raise
+        finally:
+            db.close()
 
     @staticmethod
     def _decode(row) -> dict[str, Any] | None:

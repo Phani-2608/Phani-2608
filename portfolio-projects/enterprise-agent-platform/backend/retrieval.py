@@ -26,4 +26,4 @@ def retrieve(query: str, documents: list[dict[str, str]], limit: int = 3) -> lis
         lexical = len(tokens & terms) / max(1, len(tokens))
         score = .8 * float(dense_scores[index]) + .2 * lexical
         candidates.append({'evidence_id': doc['id'], 'score': round(score, 5), 'excerpt': doc['text'][:240]})
-    return sorted(candidates, key=lambda c: (-c['score'], c['evidence_id']))[:limit]
+    return sorted((c for c in candidates if c['score'] > 0), key=lambda c: (-c['score'], c['evidence_id']))[:limit]
