@@ -16,7 +16,7 @@
 
 <br/>
 
-| 🧪 **4** | ✅ **128** | 🌐 **4** | 🔁 **4 of 4** |
+| 🧪 **6** | ✅ **128+** | 🌐 **4** | 🔁 **6 of 6** |
 |:---:|:---:|:---:|:---:|
 | end to end case studies | automated tests | live services you can click | repos with passing CI |
 
@@ -34,7 +34,7 @@
 
 ## 📂 Case Studies
 
-Each project starts from a business question, is validated against something checkable, and ships as a tested, containerized service. **Skim the table, then open any case study below.**
+Each project starts from a specific question and has code, tests, and evaluation notes you can inspect. **Skim the table, then open any case study below.**
 
 | Case study | The question it answers | Headline result | Try it |
 |---|---|---|---|
@@ -42,6 +42,8 @@ Each project starts from a business question, is validated against something che
 | 🪃 **[Boomerang](#boomerang)**<br/><sub>Fraud Detection · Risk ML</sub> | Which retail returns should an investigator look at first? | The simplest model won: **$1,049 net saved**, 2.4x the best XGBoost variant | [Code](https://github.com/Phani-2608/Boomerang) · runs locally |
 | 💲 **[Pricing Heterogeneity](#pricing)**<br/><sub>Causal Inference · Decision Science</sub> | Who should actually get a discount? | **+32.5% profit** versus discounting everyone, with **17 of 17** validation checks passing | [API](https://pricing-heterogeneity-api.onrender.com/docs) · [Dashboard](https://pricing-heterogeneity-dashboard.onrender.com) |
 | 🧾 **[Ledger Forensics](#ledger-forensics)**<br/><sub>Document Fraud · Multichannel Forensics</sub> | Where does automated receipt and invoice tampering detection actually break? | Fused visual and semantic evidence reached **0.905 ROC AUC**; error attribution traced every wrong decision to its originating stage | [Code](https://github.com/Phani-2608/ledger-forensics) · runs locally |
+| 🤖 **[Enterprise AI Agent & Investigation Platform](#enterprise-agent-platform)**<br/><sub>Agent Workflows · Auditability</sub> | How do you keep a dispute investigation traceable while an agent gathers evidence? | Tenant-scoped evidence retrieval, revision and audit records, idempotent workflows, and required human approval; synthetic cases only | [Code](https://github.com/Phani-2608/enterprise-agent-platform) · runs locally |
+| 📊 **[Personalized Decision Intelligence & ML Experimentation Platform](#decision-intelligence-platform)**<br/><sub>Ranking · A/B Testing · Uplift</sub> | Does a personalized ranking beat popularity, and who responds to treatment? | Offline HitRate@10/NDCG@10 comparison plus randomized treatment-effect analysis and T-learner uplift on synthetic data | [Code](https://github.com/Phani-2608/decision-intelligence-platform) · runs locally |
 
 <sub>⏱️ Live demos run on free tier hosting, so the first click may take 30 to 60 seconds to wake the service.</sub>
 
@@ -279,6 +281,46 @@ Counterfactual repair traced five wrong decisions to their originating stage: 40
 </details>
 
 **What this proves:** computer vision and semantic system design with measurable failure boundaries, honest generalization tests, calibrated decisions, and error attribution that identifies what should be improved next.
+
+<br/>
+
+<a id="enterprise-agent-platform"></a>
+
+## 🤖 Case Study 5 · Enterprise AI Agent & Investigation Platform
+
+**A synthetic dispute-investigation console built around evidence, access controls, and reviewer sign-off.**
+
+[![Code](https://img.shields.io/badge/Code-GitHub-181717?style=flat-square&logo=github)](https://github.com/Phani-2608/enterprise-agent-platform)
+[![CI status](https://github.com/Phani-2608/enterprise-agent-platform/actions/workflows/tests.yml/badge.svg)](https://github.com/Phani-2608/enterprise-agent-platform/actions)
+
+| | |
+|---|---|
+| **Problem** | An investigation system needs to explain where its evidence came from, prevent cross-tenant access, and stop automated steps from silently becoming final decisions. |
+| **Approach** | FastAPI and a browser console coordinate local TF-IDF evidence search, policy checks, and review packets. SQLite tracks case revisions, evidence, idempotency results, review state, and append-only audit events. |
+| **Controls** | Tenant and role checks on requests, prompt-injection warning flags, stale-write rejection, and separate reviewer credentials for approval or rejection. |
+| **Engineering** | Docker, tests, a deterministic workflow that runs offline, optional LangGraph orchestration, and read-only MCP tools for trusted local development. |
+
+The system uses synthetic financial disputes. It has no paid LLM reasoning, no payment actions, and no production identity infrastructure. The human approval step is intentionally mandatory. See the [README](https://github.com/Phani-2608/enterprise-agent-platform#readme) and [security notes](https://github.com/Phani-2608/enterprise-agent-platform/blob/main/SECURITY.md).
+
+<br/>
+
+<a id="decision-intelligence-platform"></a>
+
+## 📊 Case Study 6 · Personalized Decision Intelligence & ML Experimentation Platform
+
+**A local experiment in ranking, randomized treatment effects, and heterogeneous uplift.**
+
+[![Code](https://img.shields.io/badge/Code-GitHub-181717?style=flat-square&logo=github)](https://github.com/Phani-2608/decision-intelligence-platform)
+[![CI status](https://github.com/Phani-2608/decision-intelligence-platform/actions/workflows/tests.yml/badge.svg)](https://github.com/Phani-2608/decision-intelligence-platform/actions)
+
+| | |
+|---|---|
+| **Problem** | A recommender should be compared with a simple baseline, and an intervention should be judged by its causal effect rather than by conversion predictions alone. |
+| **Ranking** | A HistGradientBoosting relevance model scores synthetic next-item candidates against a popularity baseline. User-disjoint, history-aware evaluation reports HitRate@10 and NDCG@10; cold-start users fall back to popularity. |
+| **Experimentation** | Randomized synthetic A/B data supports a difference-in-means ATE estimate with uncertainty. A random-forest T-learner estimates heterogeneous uplift and is checked against known simulated effects. |
+| **Engineering** | FastAPI dashboard and endpoints, tests, Docker, plus optional local adapters for RetailRocket events and the Hillstrom randomized email experiment. |
+
+These are offline experiments, not evidence of a live marketing lift. Public datasets are not bundled or joined together. The [model card](https://github.com/Phani-2608/decision-intelligence-platform/blob/main/MODEL_CARD.md) and [benchmark notes](https://github.com/Phani-2608/decision-intelligence-platform/blob/main/REAL_DATA_BENCHMARK.md) describe limitations.
 
 <br/>
 
